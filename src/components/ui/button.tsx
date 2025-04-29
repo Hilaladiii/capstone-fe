@@ -8,7 +8,7 @@ const buttonVariants = tv({
       secondary: "bg-secondary text-white",
     },
     icon: {
-      true: "rounded-full size-14",
+      true: "rounded-full p-0 size-14",
     },
   },
   defaultVariants: {
