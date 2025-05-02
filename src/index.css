@@ -2,6 +2,10 @@
 
 @theme {
   --color-primary: #131e30;
+  --color-primaryHover: #1a335cf2;
+  --color-primaryActive: #1a4178;
+  --color-primaryDisabled: #e0e0e0;
+
   --color-secondary: #fb8822;
   --color-tertiary: #b3b3b3;
 

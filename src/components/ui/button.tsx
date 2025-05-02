@@ -3,17 +3,40 @@ import { tv, type VariantProps } from "tailwind-variants";
 const buttonVariants = tv({
   base: "py-4 px-20 font-bold text-base rounded-full",
   variants: {
-    variant: {
-      primary: "bg-primary text-white",
-      secondary: "bg-secondary text-white",
+    color: {
+      primary:
+        "bg-primary hover:bg-primaryHover/95 active:bg-primaryActive/40 disabled:bg-primaryDisabled ",
+      secondary:
+        "bg-secondary hover:bg-secondary/80 active:bg-secondary/30 disabled:bg-secondary/20 ",
+    },
+    type: {
+      normal: "text-white",
+      outline: "border bg-white",
     },
     icon: {
-      true: "rounded-full p-0 size-14",
+      true: "rounded-full p-0 size-14 text-white text-white",
     },
   },
   defaultVariants: {
-    variant: "primary",
+    color: "primary",
+    type: "normal",
   },
+  compoundVariants: [
+    {
+      variant: "primary",
+      type: "normal",
+    },
+    {
+      variant: "primary",
+      type: "outline",
+      class:
+        "border-primary hover:border-primaryHover/95 active:border-primaryActive/40 disabled:border-primaryDisabled",
+    },
+    {
+      variant: "secondary",
+      type: "normal",
+    },
+  ],
 });
 
 type ButtonVariants = VariantProps<typeof buttonVariants>;
@@ -22,19 +45,23 @@ interface ButtonProps extends ButtonVariants {
   children?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export const Button = ({
   children,
   className,
-  variant,
+  color,
   icon,
+  type,
   onClick,
+  disabled = false,
 }: ButtonProps) => {
   return (
     <button
-      className={buttonVariants({ className, variant, icon })}
+      className={buttonVariants({ color, icon, type, className })}
       onClick={onClick}
+      disabled={disabled}
     >
       <div>{children}</div>
     </button>
