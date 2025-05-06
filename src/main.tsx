@@ -1,18 +1,16 @@
-// main.tsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import routes from './routes/Route';
+import { CookiesProvider } from "react-cookie";
+import { RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import routes from "./routes/Route";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Router>
-      <Routes>
-        {routes.map((route, index) => (
-          <Route key={index} path={route.path} element={route.element} />
-        ))}
-      </Routes>
-    </Router>
+    <CookiesProvider>
+      <RouterProvider router={routes} />
+      <Toaster />
+    </CookiesProvider>
   </StrictMode>
 );
