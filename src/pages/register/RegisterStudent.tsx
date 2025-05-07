@@ -45,9 +45,6 @@ const RegisterStudent = () => {
               placeholder="Masukkan email anda"
               errors={errors.email}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
             <Input
               register={register}
               name="username"
@@ -55,9 +52,6 @@ const RegisterStudent = () => {
               placeholder="Masukkan username anda"
               errors={errors.username}
             />
-            {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
-            )}
             <Input
               register={register}
               name="fullname"
@@ -65,9 +59,6 @@ const RegisterStudent = () => {
               placeholder="Masukkan nama lengkap anda"
               errors={errors.fullname}
             />
-            {errors.fullname && (
-              <p className="text-red-500 text-sm">{errors.fullname.message}</p>
-            )}
             <Input
               register={register}
               name="password"
@@ -76,9 +67,6 @@ const RegisterStudent = () => {
               type="password"
               errors={errors.password}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
             <Input
               register={register}
               name="nim"
@@ -86,9 +74,6 @@ const RegisterStudent = () => {
               placeholder="Masukkan NIM anda"
               errors={errors.nim}
             />
-            {errors.nim && (
-              <p className="text-red-500 text-sm">{errors.nim.message}</p>
-            )}
             <Input
               register={register}
               name="sks"
@@ -96,9 +81,6 @@ const RegisterStudent = () => {
               placeholder="Masukkan SKS anda"
               errors={errors.sks}
             />
-            {errors.sks && (
-              <p className="text-red-500 text-sm">{errors.sks.message}</p>
-            )}
             <Input
               register={register}
               name="year"
@@ -107,9 +89,6 @@ const RegisterStudent = () => {
               type="number"
               errors={errors.year}
             />
-            {errors.year && (
-              <p className="text-red-500 text-sm">{errors.year.message}</p>
-            )}
             <Button variant="secondary" className="w-100 mt-4">
               Register
             </Button>
@@ -117,7 +96,7 @@ const RegisterStudent = () => {
           <div className="w-full mt-4 text-center text-base font-semibold">
             <span>Sudah punya akun? </span>
             <Link
-              to="/login"
+              to="/auth/sign-in"
               className="text-secondary font-semibold hover:underline"
             >
               Login sekarang
