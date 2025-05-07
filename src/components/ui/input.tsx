@@ -17,6 +17,7 @@ interface InputProps<T extends FieldValues>
 
 export const Input = <T extends FieldValues>({
   register,
+  errors,
   name,
   label,
   className,
@@ -34,6 +35,7 @@ export const Input = <T extends FieldValues>({
         {...register(name)}
         className={`border-2 border-borderDefault py-2.5 p-4 w-full max-w-[25rem] rounded-lg placeholder:text-tertiary focus:outline-none focus:ring-1 focus:ring-primary ${className}`}
       />
+      {errors && <p className="text-red-500 text-sm">{errors.message}</p>}
     </div>
   );
 };
