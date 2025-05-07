@@ -2,14 +2,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormAuthLayout from "../../components/layout/FormAuthLayout";
 import { signUpSchema, SignUp } from "../../common/validation/user.validation";
-import { StudentService } from "../../services/user/student/student.service";
-import toast from "react-hot-toast";
+import { useSignUp } from "../../common/hooks/useSignUp";
 
 const RegisterStudent = () => {
-  const navigate = useNavigate();
+  const { mutate: signUp, isPending } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -18,13 +17,8 @@ const RegisterStudent = () => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async (data: SignUp) => {
-    const response = await StudentService.signUp(data);
-    if (response.status == 201) {
-      navigate("/auth/login");
-    } else {
-      toast(response.data.message);
-    }
+  const onSubmit = (data: SignUp) => {
+    signUp(data);
   };
 
   return (
@@ -90,7 +84,7 @@ const RegisterStudent = () => {
               errors={errors.year}
             />
             <Button variant="secondary" className="w-100 mt-4">
-              Register
+              {isPending ? "Loading..." : "Sign Up"}
             </Button>
           </form>
           <div className="w-full mt-4 text-center text-base font-semibold">

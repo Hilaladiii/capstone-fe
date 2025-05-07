@@ -17,7 +17,7 @@ const Login = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit = async (data: SignIn) => {
+  const onSubmit = (data: SignIn) => {
     signIn(data);
   };
   return (
