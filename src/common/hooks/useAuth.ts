@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 import { useCookies } from "react-cookie";
 import {
   JwtAcademicClaim,
@@ -7,22 +6,12 @@ import {
 } from "../types/user.type";
 
 export const useAuth = () => {
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token", "userClaims"]);
   const token = cookies?.token;
-  let userClaims = null;
-  let isAuthenticated = false;
+  const userClaims = cookies?.userClaims as JwtStudentClaim &
+    JwtAcademicClaim &
+    JwtLecturerClaim;
+  const isAuthenticated = !!userClaims;
 
-  if (token) {
-    try {
-      const decodedToken = jwtDecode<
-        JwtAcademicClaim & JwtLecturerClaim & JwtStudentClaim
-      >(cookies.token);
-      userClaims = decodedToken;
-      isAuthenticated = true;
-    } catch (error) {
-      userClaims = null;
-      isAuthenticated = false;
-    }
-  }
-  return { userClaims, isAuthenticated };
+  return { token, userClaims, isAuthenticated };
 };
