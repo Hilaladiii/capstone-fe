@@ -9,7 +9,7 @@ const roleRedirect: Partial<Record<Roles, string>> = {
 };
 
 export const PublicRoute = () => {
-  const { isAuthenticated, userClaims } = useAuth();
+  const { userClaims, isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
     const matchRole = userClaims?.roles.find((role) => roleRedirect[role]);
