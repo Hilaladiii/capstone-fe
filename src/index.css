@@ -5,6 +5,17 @@
   --color-primary: #131e30;
   --color-secondary: #fb8822;
   --color-tertiary: #b3b3b3;
+  --color-accent: #1A4178;
+  --color-support1: #1B263D;
+  --color-support2: #D8DCE3;
+  --color-info: #027BFF;
+  --color-success: #28A745;
+  --color-warning: #FF722B;
+  --color-error: #ED2C2C;
+  --color-black1: #000000;
+  --color-black2: #282828;
+  --color-black3: #4F4F4F;
+  --color-white: #FFFFFF;
 
   --color-borderDefault: #d9d9d9;
 
