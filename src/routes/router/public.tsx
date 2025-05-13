@@ -2,7 +2,6 @@ import { RouteObject } from "react-router-dom";
 import RegisterStudent from "../../pages/register/RegisterStudent";
 import AuthLayout from "../../components/layout/AuthLayout";
 import Login from "../../pages/Login";
-import Home from "../../pages/Home";
 
 export const publicRoute: RouteObject[] = [
   {
@@ -25,9 +24,5 @@ export const publicRoute: RouteObject[] = [
         ),
       },
     ],
-  },
-  {
-    path: "/home",
-    element: <Home />, // Add the Home route
   },
 ];

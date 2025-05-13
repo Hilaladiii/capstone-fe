@@ -7,7 +7,7 @@ const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) =>
   const isActive = location.pathname === to;
 
   return (
-    <li className="list-none">
+    <li className="list-none border-transparent">
       <Link to={to} className={`${isActive ? "text-secondary" : "hover:text-secondary"}`}>
         {children}
       </Link>
@@ -17,9 +17,9 @@ const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) =>
 
 const HeaderLayout = () => {
   return (
-    <nav className="bg-primary w-full h-18 text-white px-14 py-4 flex items-center fixed z-50 justify-between">
+    <nav className="bg-primary w-full h-18 px-14 py-4 flex items-center fixed z-50 justify-between">
       <img className="h-10" src="/logo-spasi.png" alt="Logo SPASI" />
-      <ul className="flex space-x-32 text-[14px] font-semibold">
+      <ul className="flex space-x-32 text-[14px] font-semibold text-white">
         <NavItem to="/home">Beranda</NavItem>
         <NavItem to="/info">Info</NavItem>
         <NavItem to="/pengajuan">Pengajuan</NavItem>
