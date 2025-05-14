@@ -6,22 +6,15 @@ import Login from "../../pages/Login";
 export const publicRoute: RouteObject[] = [
   {
     path: "/auth",
+    Component: AuthLayout,
     children: [
       {
         path: "sign-up",
-        element: (
-          <AuthLayout>
-            <RegisterStudent />
-          </AuthLayout>
-        ),
+        element: <RegisterStudent />,
       },
       {
         path: "sign-in",
-        element: (
-          <AuthLayout>
-            <Login />
-          </AuthLayout>
-        ),
+        element: <Login />,
       },
     ],
   },

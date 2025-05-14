@@ -1,4 +1,6 @@
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+import { Outlet } from "react-router-dom";
+
+const AuthLayout = () => {
   return (
     <div className="w-full max-h-screen flex justify-between overflow-hidden">
       <section className="w-full relative flex justify-center items-center">
@@ -16,7 +18,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="absolute -bottom-8 left-130 w-44 h-44 bg-gradient-to-b from-[#0c1728] to-[#17294C] rounded-full border-t-0 border-l-2 border-r-2 border-b-5 border-secondary z-0" />
         </div>
       </section>
-      {children}
+      <Outlet />
     </div>
   );
 };
