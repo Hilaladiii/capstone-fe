@@ -6,6 +6,8 @@ import Pengajuan from "../../pages/Pengajuan";
 import Logbook from "../../pages/Logbook";
 import Notification from "../../pages/Notification";
 import Profile from "../../pages/Profile";
+import AnnouncementList from "../../pages/pengumuman/AnnouncementList";
+import AnnouncementDetail from "../../pages/pengumuman/AnnouncementDetail";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -35,5 +37,13 @@ export const privateRoute: RouteObject[] = [
   {
     path: "/profile",
     element: <Profile/>,
+  },
+  {
+    path: "/pengumuman",
+    element: <AnnouncementList/>,
+  },
+  {
+    path: "/detailpengumuman/:id",
+    element: <AnnouncementDetail />
   },
 ];

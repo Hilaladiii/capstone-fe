@@ -6,6 +6,8 @@ export interface Announcement {
   title: string;
   createdAt: string; 
   content: string; 
+  imageUrl: string | null;
+  fileUrl: string | null;
 }
 
 const AnnouncementsService = {
@@ -35,7 +37,8 @@ const AnnouncementsService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data; 
+
+      return response.data;
     } catch (error) {
       console.error('Error fetching single announcement:', error);
       return { data: {} };
