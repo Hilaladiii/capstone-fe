@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import apiService, { Partner } from "../../../services/partner.service";
 import { useAuth } from "../../../common/hooks/useAuth";
-import Card from "../../ui/card";
+import Card from "../../ui/cardMitra";
 import { Button } from "../../ui/button";
 import { Link } from "react-router-dom";
-
 
 const PartnerSection = () => {
   const [partners, setPartners] = useState<Partner[]>([]);
@@ -22,7 +21,7 @@ const PartnerSection = () => {
   useEffect(() => {
     fetchPartners();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]); 
+  }, [token]);
 
   return (
     <section className="flex flex-col items-center py-20 bg-white w-full">
@@ -36,21 +35,11 @@ const PartnerSection = () => {
         {partners.length === 0 ? (
           <div className="col-span-3 text-md text-gray-500 text-center py-10">Tidak ada mitra.</div>
         ) : (
-          partners.map((partner) => (
-            <Card
-              key={partner.partnerId}
-              title={partner.name}
-              address={`Alamat: ${partner.address}`}
-              imageUrl={partner.logoUrl}
-            />
-          ))
+          partners.map((partner) => <Card key={partner.partnerId} title={partner.name} address={`Alamat: ${partner.address}`} imageUrl={partner.logoUrl} />)
         )}
       </div>
       <Link to="/info/mitra">
-        <Button
-          variant="secondary"
-          className="mt-10 py-3 px-8 cursor-pointer"
-        >
+        <Button variant="secondary" className="mt-10 py-3 px-8 cursor-pointer">
           Lihat Semua Mitra <span className="ml-2 text-md font-semibold">→</span>
         </Button>
       </Link>
