@@ -3,11 +3,11 @@ import Home from "../../pages/Home";
 import Info from "../../pages/info";
 import ListMitra from "../../pages/info/ListMitra";
 import Pengajuan from "../../pages/Pengajuan";
-import Logbook from "../../pages/Logbook";
 import Notification from "../../pages/Notification";
 import Profile from "../../pages/Profile";
 import AnnouncementList from "../../pages/pengumuman/AnnouncementList";
 import AnnouncementDetail from "../../pages/pengumuman/AnnouncementDetail";
+import UpdateLogbookForm from "../../pages/Logbook";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -28,7 +28,7 @@ export const privateRoute: RouteObject[] = [
   },
   {
     path: "/logbook",
-    element: <Logbook/>,
+    element: <UpdateLogbookForm/>,
   },
   {
     path: "/notification",
