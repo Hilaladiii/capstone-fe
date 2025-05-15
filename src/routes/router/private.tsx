@@ -3,47 +3,52 @@ import Home from "../../pages/Home";
 import Info from "../../pages/info";
 import ListMitra from "../../pages/info/ListMitra";
 import Pengajuan from "../../pages/Pengajuan";
-import Notification from "../../pages/Notification";
+import Notification from "../../pages/Notification/NotificationList";
 import Profile from "../../pages/Profile";
 import AnnouncementList from "../../pages/pengumuman/AnnouncementList";
 import AnnouncementDetail from "../../pages/pengumuman/AnnouncementDetail";
 import UpdateLogbookForm from "../../pages/Logbook";
+import NotificationDetail from "../../pages/Notification/NotificationDetail";
 
 export const privateRoute: RouteObject[] = [
   {
     path: "/home",
-    element: <Home/>,
+    element: <Home />,
   },
   {
     path: "/info/umum",
-    element: <Info/>,
+    element: <Info />,
   },
   {
     path: "/info/mitra",
-    element: <ListMitra/>,
+    element: <ListMitra />,
   },
   {
     path: "/pengajuan",
-    element: <Pengajuan/>,
+    element: <Pengajuan />,
   },
   {
     path: "/logbook",
-    element: <UpdateLogbookForm/>,
+    element: <UpdateLogbookForm />,
   },
   {
     path: "/notification",
-    element: <Notification/>,
+    element: <Notification />,
+  },
+  {
+    path: "/detailnotifikasi/:id",
+    element: <NotificationDetail />,
   },
   {
     path: "/profile",
-    element: <Profile/>,
+    element: <Profile />,
   },
   {
     path: "/pengumuman",
-    element: <AnnouncementList/>,
+    element: <AnnouncementList />,
   },
   {
     path: "/detailpengumuman/:id",
-    element: <AnnouncementDetail />
+    element: <AnnouncementDetail />,
   },
 ];
