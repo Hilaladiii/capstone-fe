@@ -67,9 +67,9 @@ const HeaderLayout = () => {
   }, []);
 
   return (
-    <nav className="bg-primary w-full h-18 px-14 py-4 flex items-center fixed z-50 justify-between">
+    <nav className="bg-primary w-full h-19 px-14 py-4 flex items-center fixed z-50 justify-between">
       <img className="h-10" src="/logo-spasi.png" alt="Logo SPASI" />
-      <ul className="flex space-x-32 text-[14px] font-semibold">
+      <ul className="flex space-x-32 text-sm font-semibold">
         <NavItem to="/home">Beranda</NavItem>
 
         <div
@@ -82,24 +82,35 @@ const HeaderLayout = () => {
           </NavItem>
 
           {(isDropdownOpen || isHovered) && (
-            <div className="absolute left-0 w-50 bg-white text-black rounded-md shadow-lg">
-              <ul className="space-y-2 p-2">
+            <div className="absolute w-56 bg-primary text-white text-xs rounded-md shadow-lg">
+              <ul className="p-2 px-4 pt-6">
                 <li>
                   <Link
                     to="/info/umum"
-                    className="block px-4 py-2 hover:bg-secondary rounded-md"
+                    className="block px-4 py-3 hover:bg-secondary rounded-md"
                     onClick={handlePageClick} 
                   >
                     Informasi Umum
                   </Link>
                 </li>
+                <li className="h-[1px] w-auto bg-white"/>
                 <li>
                   <Link
                     to="/info/mitra"
-                    className="block px-4 py-2 hover:bg-secondary rounded-md"
+                    className="block px-4 py-3 hover:bg-secondary rounded-md"
                     onClick={handlePageClick} 
                   >
-                    List Mitra
+                    Mitra PKL
+                  </Link>
+                </li>
+                <li className="h-[1px] w-auto bg-white"/>
+                <li>
+                  <Link
+                    to="/info/pengumuman"
+                    className="block px-4 py-3 hover:bg-secondary rounded-md"
+                    onClick={handlePageClick} 
+                  >
+                    Pengumuman
                   </Link>
                 </li>
               </ul>

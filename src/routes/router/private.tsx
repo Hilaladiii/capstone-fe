@@ -1,11 +1,12 @@
 import { RouteObject } from "react-router-dom";
-import Home from "../../pages/Home";
+import Home from "../../pages/home/Home";
 import Info from "../../pages/info";
 import ListMitra from "../../pages/info/ListMitra";
 import Pengajuan from "../../pages/Pengajuan";
 import Logbook from "../../pages/Logbook";
 import Notification from "../../pages/Notification";
 import Profile from "../../pages/Profile";
+import AnnouncementDetail from "../../pages/AnnouncementDetail";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -35,5 +36,9 @@ export const privateRoute: RouteObject[] = [
   {
     path: "/profile",
     element: <Profile/>,
+  },
+  {
+    path: "/pengumuman/:id",
+    element: <AnnouncementDetail/>,
   },
 ];

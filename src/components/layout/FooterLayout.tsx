@@ -10,15 +10,15 @@ const FooterLayout = () => {
   ];
 
   return (
-    <div className="w-full h-80 bg-primary text-white py-12 px-26 flex justify-between items-center">
-      <div className="flex flex-col items-center text-center gap-2 text-sm mb-4">
-        <img className="my-8" src="/logo-filkom.png" alt="Logo FILKOM" />
+    <div className="w-full h-70 bg-primary text-white py-12 px-20 flex justify-between text-[11px] items-center">
+      <div className="flex flex-col items-center text-center gap-2 mb-4">
+        <img className="my-6" src="/logo-filkom.png" alt="Logo FILKOM" />
         <div>Fakultas Ilmu Komputer (FILKOM)</div>
         <div>Universitas Brawijaya</div>
         <div>Sistem Informasi</div>
       </div>
 
-      <div className="flex flex-col text-sm gap-6 max-w-sm">
+      <div className="flex flex-col gap-4 max-w-sm">
         <div className="flex flex-col gap-2">
           <p>Narahubung Akademik</p>
           <a href="tel:+6281132257272" className="hover:underline">
@@ -39,14 +39,14 @@ const FooterLayout = () => {
 
       <div className="flex flex-col items-start gap-2">
         {links.map(({ icon, href, label }, index) => (
-          <div key={index} className="flex items-center gap-2 text-sm">
+          <div key={index} className="flex items-center gap-2">
             <div className="text-2xl">{icon}</div>
             <a href={href} className="hover:underline" target="_blank" rel="noopener noreferrer">
               {label}
             </a>
           </div>
         ))}
-        <div className="text-xs leading-snug mt-8">Copyright © 2018 PSIK FILKOM UB. All Rights Reserved.</div>
+        <div className="leading-snug mt-6">Copyright © 2018 PSIK FILKOM UB. All Rights Reserved.</div>
       </div>
     </div>
   );
