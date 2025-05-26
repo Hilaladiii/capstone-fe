@@ -1,14 +1,13 @@
 import { RouteObject } from "react-router-dom";
-import Home from "../../pages/Home";
-import Info from "../../pages/info";
-import ListMitra from "../../pages/info/ListMitra";
+import Home from "../../pages/home/Home";
+import Information from "../../pages/info/information/Information";
+import ListMitra from "../../pages/info/partner/PartnerList";
 import Pengajuan from "../../pages/Pengajuan";
-import Notification from "../../pages/Notification/NotificationList";
+import Logbook from "../../pages/Logbook";
+import Notification from "../../pages/Notification";
 import Profile from "../../pages/Profile";
-import AnnouncementList from "../../pages/pengumuman/AnnouncementList";
-import AnnouncementDetail from "../../pages/pengumuman/AnnouncementDetail";
-import UpdateLogbookForm from "../../pages/Logbook";
-import NotificationDetail from "../../pages/Notification/NotificationDetail";
+import AnnouncementDetail from "../../pages/info/announcement/AnnouncementDetail";
+import AnnouncementList from "../../pages/info/announcement/AnnouncementList";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -17,7 +16,7 @@ export const privateRoute: RouteObject[] = [
   },
   {
     path: "/info/umum",
-    element: <Info />,
+    element: <Information />,
   },
   {
     path: "/info/mitra",
@@ -29,26 +28,22 @@ export const privateRoute: RouteObject[] = [
   },
   {
     path: "/logbook",
-    element: <UpdateLogbookForm />,
+    element: <Logbook />,
   },
   {
     path: "/notification",
     element: <Notification />,
   },
   {
-    path: "/detailnotifikasi/:id",
-    element: <NotificationDetail />,
-  },
-  {
     path: "/profile",
     element: <Profile />,
   },
   {
-    path: "/pengumuman",
-    element: <AnnouncementList />,
+    path: "/pengumuman/:id",
+    element: <AnnouncementDetail />,
   },
   {
-    path: "/detailpengumuman/:id",
-    element: <AnnouncementDetail />,
+    path: "/info/pengumuman",
+    element: <AnnouncementList />,
   },
 ];
