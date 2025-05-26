@@ -8,40 +8,41 @@ const VideoTutorial = () => {
   const handlePlayClick = () => {
     if (videoRef.current) {
       videoRef.current.play();
-      setIsPlaying(true); 
+      setIsPlaying(true);
     }
   };
 
   const handlePause = () => {
     if (videoRef.current) {
       videoRef.current.pause();
-      setIsPlaying(false); 
+      setIsPlaying(false);
     }
   };
 
   return (
-    <section className="flex flex-col w-full h-full justify-center bg-white px-10 py-18">
-      <div className="pl-62 mb-6 text-start text-black text-3xl font-bold">Video Tutorial</div>
-      <div className="bg-support1 rounded-[30px] w-full max-w-[830px] mx-auto h-[470px] relative flex justify-center items-center">
+    <div className="flex flex-col w-1/2 items-start">
+      <div className="mb-8 text-start text-black text-xl font-bold pl-20">Video Tutorial</div>
+      <div className="bg-black-3 rounded-[30px] w-full max-w-[568px] mx-auto h-[363px] relative flex justify-center items-center">
         <video
           ref={videoRef}
-          className="w-full max-w-[800px] h-[440px] rounded-[30px]"
+          className="w-full max-w-[538px] h-[333px] rounded-[30px] object-cover"
           controls
           style={{ display: "block" }}
           onPause={handlePause} 
           onPlay={() => setIsPlaying(true)} 
         >
-          <source src="video-tutorial.mp4" type="video/mp4" />
+          <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+
         {!isPlaying && (
           <IoIosPlayCircle
-            className="absolute text-white opacity-80 w-24 h-24 cursor-pointer"
+            className="absolute text-white opacity-80 w-14 h-14 cursor-pointer"
             onClick={handlePlayClick}
           />
         )}
       </div>
-    </section>
+    </div>
   );
 };
 
