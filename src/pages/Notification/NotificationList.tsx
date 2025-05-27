@@ -1,157 +1,71 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../../common/hooks/useAuth";
+import { useNotifications } from "../../common/hooks/useNotification";
 import FooterLayout from "../../components/layout/FooterLayout";
 import HeaderLayout from "../../components/layout/HeaderLayout";
-import apiService, { Announcement } from "../../services/announcement.service";
-
-const ITEMS_PER_PAGE = 5;
+import { Button } from "../../components/ui/button";
 
 const NotificationList = () => {
-  const { token, isAuthenticated } = useAuth();
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalItems, setTotalItems] = useState<number>(0);
-
-  useEffect(() => {
-    if (!isAuthenticated || !token) {
-      setAnnouncements([]);
-      setTotalItems(0);
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const response = await apiService.getAnnouncements(token, 1, 1000);
-        let anns: Announcement[] = response?.data?.announcements ?? [];
-        anns = anns.sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-        setTotalItems(anns.length);
-
-        const pagedAnns = anns.slice(
-          (currentPage - 1) * ITEMS_PER_PAGE,
-          currentPage * ITEMS_PER_PAGE
-        );
-
-        const details = await Promise.all(
-          pagedAnns.map(async (a: Announcement) => {
-            const id = String(a.announcementId);
-            const detail = await apiService.getSingleAnnouncement(token, id);
-            return { ...a, content: detail.data.content, announcementId: id };
-          })
-        );
-        setAnnouncements(details);
-      } catch {
-        setAnnouncements([]);
-        setTotalItems(0);
-      }
-    };
-
-    fetchData();
-  }, [isAuthenticated, token, currentPage]);
-
-  const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
-  const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  };
-
-  const goToDetail = (announcementId: string) => {
-    window.location.href = `/detailnotifikasi/${announcementId}`;
-  };
+  const { unreadCount, notifications, markNotificationsAsRead } = useNotifications();
 
   return (
-    <div>
+    <main className="flex flex-col">
       <HeaderLayout />
-      <section className="min-h-screen bg-primary flex flex-col justify-center items-center pt-20 pb-10">
-        <div className="px-2">
-          <h1 className="text-3xl text-center font-bold mb-8 mt-6 text-white">Notifikasi</h1>
-          <div className="h-2 w-90 flex items-center justify-center px-10 bg-gradient-to-l from-secondary from-60% to-primary to-100% mb-10" />
-        </div>
+      <div className="max-w-full pt-20 bg-primary flex flex-col items-center justify-center">
+        <h2 className="text-xl py-4 font-semibold text-secondary">Daftar Notifikasi</h2>
+        <div className="h-1 w-80 flex items-center justify-center px-10 bg-gradient-to-l from-secondary from-60% to-primary to-100% mb-10" />
 
-        <div className="w-full">
-          <ul className="flex flex-col gap-5 w-full max-w-6xl mx-auto px-4 md:px-10">
-            {announcements.length === 0 ? (
-              <li className="text-xl font-medium text-center text-white">
-                Tidak ada pengumuman.
-              </li>
-            ) : (
-              announcements.map((a) => (
-                <li
-                  key={a.announcementId}
-                  onClick={() => goToDetail(a.announcementId)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Lihat detail pengumuman"
-                  className={`bg-white w-full py-4 px-12 font-semibold text-sm text-[#27272A]
-                    flex flex-col shadow cursor-pointer h-26 transition
-                    hover:shadow-lg hover:scale-[1.01] outline-none
-                    focus:ring focus:ring-secondary rounded-xl`}
-                >
-                  <span className="mb-2 text-secondary">
-                    {new Date(a.createdAt).toLocaleDateString("id-ID", { dateStyle: "medium" })}
-                  </span>
-                  <span
-                    className="block max-w-full font-normal text-sm leading-relaxed whitespace-pre-line text-justify
-                      overflow-hidden text-ellipsis line-clamp-3"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden"
-                    }}
-                  >
-                    {a.content}
-                  </span>
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-
-        {totalPages > 1 && (
-          <div className="flex justify-center mt-8">
-            <nav className="flex gap-2" aria-label="Pagination">
-              <button
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`px-4 py-2 bg-white rounded-lg transition border ${
-                  currentPage === 1
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-support2"
-                }`}
+        <div className="rounded-lg shadow-lg w-full max-w-6xl">
+          <div className="border-b-2 border-white p-6">
+            <div className="flex items-center justify-between">
+              <span className="bg-secondary text-white text-sm font-medium px-3 py-2 rounded-lg">
+                Unread Notifications: {unreadCount || 0}
+              </span>
+              <Button
+                onClick={markNotificationsAsRead}
+                variant="secondary"
+                className="text-white text-sm rounded-lg px-3 py-2 font-medium cursor-pointer bg-secondary hover:bg-white hover:text-secondary"
               >
-                &lt;
-              </button>
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => goToPage(i + 1)}
-                  className={`px-4 py-2 rounded-lg font-bold ${
-                    currentPage === i + 1
-                      ? "bg-support2 text-white shadow"
-                      : "bg-white text-[#27272A]"
+                Mark All as Read
+              </Button>
+            </div>
+          </div>
+
+          <div className="divide-y mt-6">
+            {notifications?.length > 0 ? (
+              notifications.map((notification) => (
+                <div
+                  key={notification.notificationId}
+                  className={`px-6 py-3 hover:bg-gray-50 transition-colors w-full my-4 ${
+                    notification.status === "UNREAD"
+                      ? "bg-white border-l-4 m-2 rounded-2xl"
+                      : "bg-white m-2 rounded-2xl"
                   }`}
                 >
-                  {i + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`px-4 py-2 bg-white rounded-lg transition border ${
-                  currentPage === totalPages
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-secondary/60"
-                }`}
-              >
-                 &gt;
-              </button>
-            </nav>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2"></div>
+                      <p className="text-sm font-semibold text-black">
+                        {notification.title}
+                      </p>
+                    </div>
+                    <div className="ml-4">
+                      {notification.status === "UNREAD" && (
+                        <div className="w-3 h-3 bg-secondary rounded-full"></div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-12 text-center">
+                <p className="text-white text-lg">Tidak ada notifikasi</p>
+              </div>
+            )}
           </div>
-        )}
-      </section>
+        </div>
+      </div>
+
       <FooterLayout />
-    </div>
+    </main>
   );
 };
 
