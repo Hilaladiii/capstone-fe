@@ -7,6 +7,10 @@ import {
   CancellationResponse,
   UpdateResponse,
   InternshipStatus,
+  CompanyApplicationRequest,
+  CompetitionApplicationRequest,
+  ExtensionRequest,
+  ApplicationResponse,
 } from "../../common/types/internship.type";
 
 export function useInternshipStatus() {
@@ -31,5 +35,23 @@ export function useUpdateInternshipCompany(internshipId: string) {
 export function useUpdateInternshipCancellation(cancellationId: string) {
   return useMutation<UpdateResponse, Error, UpdateCancellationRequest>({
     mutationFn: (data: UpdateCancellationRequest) => InternshipService.updateInternshipCancellation(cancellationId, data),
+  });
+}
+
+export function useRequestCompanyApplication() {
+  return useMutation<ApplicationResponse, Error, CompanyApplicationRequest>({
+    mutationFn: (data: CompanyApplicationRequest) => InternshipService.requestCompanyApplication(data),
+  });
+}
+
+export function useRequestCompetitionApplication() {
+  return useMutation<ApplicationResponse, Error, CompetitionApplicationRequest>({
+    mutationFn: (data: CompetitionApplicationRequest) => InternshipService.requestCompetitionApplication(data),
+  });
+}
+
+export function useRequestExtension() {
+  return useMutation<ApplicationResponse, Error, ExtensionRequest>({
+    mutationFn: (data: ExtensionRequest) => InternshipService.requestExtension(data),
   });
 }

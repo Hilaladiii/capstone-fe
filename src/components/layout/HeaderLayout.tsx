@@ -129,8 +129,16 @@ const HeaderLayout = () => {
             </div>
           )}
         </div>
-
-        <NavItem to="/pengajuan">Pengajuan</NavItem>
+        <NavItem
+          to="/pengajuan"
+          isActiveOverride={
+            ["/pengajuan", "/pkl-instansi", "/pkl-lomba", "/perpanjangan-pkl", "/pembatalan-pkl"].some((path) =>
+              location.pathname.startsWith(path)
+            )
+          }
+        >
+          Pengajuan
+        </NavItem>
         <NavItem to="/logbook">Logbook</NavItem>
       </ul>
 
