@@ -7,19 +7,27 @@ interface NavItemProps {
   to: string;
   children: React.ReactNode;
   onClick?: () => void;
-  className?: string; 
+  className?: string;
+  isActiveOverride?: boolean;
 }
 
-const NavItem = ({ to, children, onClick, className }: NavItemProps) => {
-  const location = useLocation();  
-
-  const isActive = location.pathname === to;
+const NavItem = ({
+  to,
+  children,
+  onClick,
+  className,
+  isActiveOverride,
+}: NavItemProps) => {
+  const location = useLocation();
+  const isActive = isActiveOverride ?? location.pathname === to;
 
   return (
     <li className="list-none border-transparent">
       <Link
         to={to}
-        className={`hover:text-secondary focus:outline-none ${isActive ? 'text-secondary' : 'text-white'} ${className}`} 
+        className={`hover:text-secondary focus:outline-none ${
+          isActive ? "text-secondary" : "text-white"
+        } ${className}`}
         onClick={onClick}
       >
         {children}
@@ -30,10 +38,13 @@ const NavItem = ({ to, children, onClick, className }: NavItemProps) => {
 
 const HeaderLayout = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false); 
-  const location = useLocation(); 
+  const [isHovered, setIsHovered] = useState(false);
+  const location = useLocation();
 
-  const isInfoPage = location.pathname === '/info/umum' || location.pathname === '/info/mitra';
+  const isInfoPage =
+    ["/info/umum", "/info/mitra", "/info/pengumuman"].some((path) =>
+      location.pathname.startsWith(path)
+    ) || location.pathname.startsWith("/pengumuman/");
 
   const handleClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -53,7 +64,7 @@ const HeaderLayout = () => {
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement; 
+      const target = event.target as HTMLElement;
       if (!target.closest(".info-dropdown")) {
         setIsDropdownOpen(false);
       }
@@ -69,6 +80,7 @@ const HeaderLayout = () => {
   return (
     <nav className="bg-primary w-full h-19 px-14 py-4 flex items-center fixed z-50 justify-between">
       <img className="h-10" src="/logo-spasi.png" alt="Logo SPASI" />
+
       <ul className="flex space-x-32 text-sm font-semibold">
         <NavItem to="/home">Beranda</NavItem>
 
@@ -77,38 +89,38 @@ const HeaderLayout = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <NavItem to="#" onClick={handleClick} className={isInfoPage ? 'text-secondary' : ''}>
+          <NavItem to="#" onClick={handleClick} isActiveOverride={isInfoPage}>
             Info
           </NavItem>
 
           {(isDropdownOpen || isHovered) && (
-            <div className="absolute w-56 bg-primary text-white text-xs rounded-md shadow-lg">
+            <div className="absolute w-56 bg-primary text-white text-center text-xs rounded-md shadow-lg -translate-x-24">
               <ul className="p-2 px-4 pt-6">
                 <li>
                   <Link
                     to="/info/umum"
                     className="block px-4 py-3 hover:bg-secondary rounded-md"
-                    onClick={handlePageClick} 
+                    onClick={handlePageClick}
                   >
                     Informasi Umum
                   </Link>
                 </li>
-                <li className="h-[1px] w-auto bg-white"/>
+                <li className="h-[1px] w-auto bg-white" />
                 <li>
                   <Link
                     to="/info/mitra"
                     className="block px-4 py-3 hover:bg-secondary rounded-md"
-                    onClick={handlePageClick} 
+                    onClick={handlePageClick}
                   >
                     Mitra PKL
                   </Link>
                 </li>
-                <li className="h-[1px] w-auto bg-white"/>
+                <li className="h-[1px] w-auto bg-white" />
                 <li>
                   <Link
                     to="/info/pengumuman"
                     className="block px-4 py-3 hover:bg-secondary rounded-md"
-                    onClick={handlePageClick} 
+                    onClick={handlePageClick}
                   >
                     Pengumuman
                   </Link>
@@ -126,7 +138,9 @@ const HeaderLayout = () => {
         <NavItem to="/notification">
           <GoBellFill className="w-7 h-7 cursor-pointer" />
         </NavItem>
-        <span className="bg-secondary text-black font-semibold px-4 py-1 rounded-full text-sm">Mahasiswa</span>
+        <span className="bg-secondary text-black font-semibold px-4 py-1 rounded-full text-sm">
+          Mahasiswa
+        </span>
         <NavItem to="/profile">
           <FaCircleUser className="w-7 h-7 cursor-pointer" />
         </NavItem>
