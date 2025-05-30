@@ -11,7 +11,7 @@ import {
   CompetitionApplicationRequest,
   ExtensionRequest,
   ApplicationResponse,
-} from "../../common/types/internship.type";
+} from "../types/internshipp.type";
 
 export function useInternshipStatus() {
   return useQuery<InternshipStatus, Error>({

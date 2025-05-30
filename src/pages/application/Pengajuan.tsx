@@ -1,7 +1,7 @@
-import FooterLayout from "../../components/layout/FooterLayout";
+import FooterLayout from "../../components/layout/HeaderLayout";
 import HeaderLayout from "../../components/layout/HeaderLayout";
 import { Button } from "../../components/ui/button";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 const Pengajuan = () => {
   const sections = [

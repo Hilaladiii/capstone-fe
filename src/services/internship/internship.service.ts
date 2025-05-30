@@ -11,7 +11,7 @@ import {
   CompetitionApplicationRequest,
   ExtensionRequest,
   ApplicationResponse,
-} from "../../common/types/internship.type";
+} from "../../common/types/internshipp.type";
 
 export class InternshipService {
   static async getApplicationStatus(): Promise<InternshipStatus> {
@@ -35,35 +35,23 @@ export class InternshipService {
     return response.data;
   }
 
-  static async updateInternshipCompany(
-    internshipId: string,
-    data: UpdateCompanyRequest
-  ): Promise<UpdateResponse> {
+  static async updateInternshipCompany(internshipId: string, data: UpdateCompanyRequest): Promise<UpdateResponse> {
     const formData = new FormData();
     formData.append("status", data.status);
     formData.append("coverLetterFile", data.coverLetterFile);
     formData.append("studyResultCardFile", data.studyResultCardFile);
     formData.append("letterApprovalSupervisorFile", data.letterApprovalSupervisorFile);
 
-    const response = await axiosInstance.patch<UpdateResponse>(
-      `/internship/${internshipId}/company`,
-      formData
-    );
-    return response.data; 
+    const response = await axiosInstance.patch<UpdateResponse>(`/internship/${internshipId}/company`, formData);
+    return response.data;
   }
 
-  static async updateInternshipCancellation(
-    cancellationId: string,
-    data: UpdateCancellationRequest
-  ): Promise<UpdateResponse> {
+  static async updateInternshipCancellation(cancellationId: string, data: UpdateCancellationRequest): Promise<UpdateResponse> {
     const formData = new FormData();
     formData.append("status", data.status);
     formData.append("supportingDocument", data.supportingDocument);
 
-    const response = await axiosInstance.patch<UpdateResponse>(
-      `/internship/${cancellationId}/cancellation`,
-      formData
-    );
+    const response = await axiosInstance.patch<UpdateResponse>(`/internship/${cancellationId}/cancellation`, formData);
     return response.data;
   }
 
