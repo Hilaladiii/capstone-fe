@@ -31,6 +31,7 @@ export interface Lecturer extends User {
 export type JwtPayload = {
   sub: string;
   roles: Roles[];
+  exp: number;
 };
 
 export type JwtStudentClaim = JwtPayload & {
