@@ -4,7 +4,6 @@ import AuthLayout from "../../components/layout/AuthLayout";
 import RegisterAcademic from "../../pages/register/RegisterAcademic";
 import RegisterLecturer from "../../pages/register/RegisterLecturer";
 import Login from "../../pages/login/Login";
-import AdminLogin from "../../pages/login/LoginAdmin";
 
 export const publicRoute: RouteObject[] = [
   {
@@ -15,7 +14,7 @@ export const publicRoute: RouteObject[] = [
         path: "sign-up",
         element: <RegisterStudent />,
       },
-            {
+      {
         path: "sign-up-academic",
         element: <RegisterAcademic />,
       },
@@ -26,10 +25,6 @@ export const publicRoute: RouteObject[] = [
       {
         path: "sign-in",
         element: <Login />,
-      },
-      {
-        path: "admin/sign-in",
-        element: <AdminLogin />,
       },
     ],
   },
