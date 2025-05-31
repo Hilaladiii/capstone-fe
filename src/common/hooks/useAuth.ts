@@ -1,14 +1,14 @@
-import { useCookies } from "react-cookie";
 import {
   JwtAcademicClaim,
   JwtLecturerClaim,
   JwtStudentClaim,
 } from "../types/user.type";
+import Cookies from "universal-cookie";
 
 export const useAuth = () => {
-  const [cookies] = useCookies(["token", "userClaims"]);
-  const token = cookies?.token;
-  const userClaims = cookies?.userClaims as JwtStudentClaim &
+  const cookies = new Cookies(null, { path: "/" });
+  const token = cookies.get("token");
+  const userClaims = cookies.get("userClaims") as JwtStudentClaim &
     JwtAcademicClaim &
     JwtLecturerClaim;
   const isAuthenticated = !!userClaims;
