@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import FooterLayout from '../components/layout/FooterLayout';
-import HeaderLayout from '../components/layout/HeaderLayout';
+import React, { useState } from "react";
 
 const Profile = () => {
-  const [name, setName] = useState('Aisha Zahra Fidelya');
-  const [nim, setNim] = useState('225150700111829');
-  const [email, setEmail] = useState('aishazahra@student.ub.ac.id');
-  const [sks, setSks] = useState('');
-  const [year, setYear] = useState('');
-  const [program, setProgram] = useState('Sistem Informasi');
+  const [name, setName] = useState("Aisha Zahra Fidelya");
+  const [nim, setNim] = useState("225150700111829");
+  const [email, setEmail] = useState("aishazahra@student.ub.ac.id");
+  const [sks, setSks] = useState("");
+  const [year, setYear] = useState("");
+  const [program, setProgram] = useState("Sistem Informasi");
   const [photo, setPhoto] = useState<File | null>(null);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -20,26 +18,37 @@ const Profile = () => {
   };
 
   const handleSaveProfile = () => {
-    console.log('Saved Profile', { name, nim, email, sks, year, program, photo });
+    console.log("Saved Profile", {
+      name,
+      nim,
+      email,
+      sks,
+      year,
+      program,
+      photo,
+    });
   };
 
   const handleSavePassword = () => {
     if (newPassword === confirmPassword) {
-      console.log('Password changed successfully');
+      console.log("Password changed successfully");
     } else {
-      console.log('Passwords do not match');
+      console.log("Passwords do not match");
     }
   };
 
   return (
     <main>
-      <HeaderLayout />
       <div className="flex items-center justify-center flex-col bg-dark-blue text-white rounded-lg shadow-lg w-full bg-primary">
         <div className="flex items-center w-7xl pt-24 gap-6 p-8">
-          <div className='flex flex-col items-center justify-center'>
+          <div className="flex flex-col items-center justify-center">
             <img
               className="w-80 rounded-2xl object-cover"
-              src={photo ? URL.createObjectURL(photo) : 'https://via.placeholder.com/150'}
+              src={
+                photo
+                  ? URL.createObjectURL(photo)
+                  : "https://via.placeholder.com/150"
+              }
               alt="Profile"
             />
             <input
@@ -49,7 +58,7 @@ const Profile = () => {
               onChange={handlePhotoChange}
             />
             <button
-              onClick={() => document.getElementById('file-upload')?.click()}
+              onClick={() => document.getElementById("file-upload")?.click()}
               className="mt-6 text-sm text-white bg-secondary px-4 py-2 rounded-full cursor-pointer"
             >
               Upload Foto
@@ -91,7 +100,7 @@ const Profile = () => {
                   value={sks}
                   onChange={(e) => setSks(e.target.value)}
                   className="bg-white text-black rounded-lg p-3 mt-1"
-                  placeholder='Masukkan jumlah SKS lulus anda'
+                  placeholder="Masukkan jumlah SKS lulus anda"
                 />
               </div>
               <div className="flex flex-col">
@@ -101,7 +110,7 @@ const Profile = () => {
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                   className="bg-white text-black rounded-lg p-3 mt-1"
-                  placeholder='Masukkan tahun masuk anda'
+                  placeholder="Masukkan tahun masuk anda"
                 />
               </div>
               <div className="flex flex-col">
@@ -124,7 +133,9 @@ const Profile = () => {
         </div>
 
         <div className="flex flex-col items-center mt-10 w-full mx-auto bg-white text-black p-8 rounded-lg shadow-lg">
-          <h2 className="flex items-center justify-center text-2xl font-semibold mb-6 bg-black text-white rounded-lg w-7xl px-4 py-2">Ganti Password Baru</h2>
+          <h2 className="flex items-center justify-center text-2xl font-semibold mb-6 bg-black text-white rounded-lg w-7xl px-4 py-2">
+            Ganti Password Baru
+          </h2>
           <div className="space-y-4 w-7xl">
             <div className="flex flex-col">
               <label className="text-sm">Username</label>
@@ -164,7 +175,6 @@ const Profile = () => {
           </button>
         </div>
       </div>
-      <FooterLayout/>
     </main>
   );
 };
