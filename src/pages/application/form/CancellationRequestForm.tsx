@@ -1,54 +1,77 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../../../components/ui/input"; 
+import { Input } from "../../../components/ui/input";
 import { FileUpload } from "../../../components/ui/file-upload";
 import { Button } from "../../../components/ui/button";
-import toast from "react-hot-toast"; 
+import toast from "react-hot-toast";
 import { useRequestCancellation } from "../../../common/hooks/useInsternship";
-import { z } from "zod"; 
-import HeaderLayout from "../../../components/layout/HeaderLayout";
-import FooterLayout from "../../../components/layout/FooterLayout";
-import SuccessNotification from "../../../components/ui/successNotification"; 
+import { z } from "zod";
+import SuccessNotification from "../../../components/ui/successNotification";
 
-const cancellationSchema = z.object({
-  names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
-  nims: z.string().min(1, { message: "NIM wajib diisi" }),
-  emails: z.string().min(1, { message: "Email wajib diisi" }),
-  phoneNumbers: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
-  agencyName: z.string().min(1, { message: "Nama instansi wajib diisi" }),
-  agencyAddress: z.string().min(1, { message: "Alamat instansi wajib diisi" }),
-  isGroup: z.boolean(),
-  cancellationReason: z.string().min(1, { message: "Alasan pembatalan wajib diisi" }),
-  supportingDocumentFile: z.any().optional(), 
-}).refine((data) => {
-  if (data.isGroup) {
-    const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-    const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-    const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
-    const phonesArray = data.phoneNumbers.split('\n').filter(phone => phone.trim() !== '');
+const cancellationSchema = z
+  .object({
+    names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
+    nims: z.string().min(1, { message: "NIM wajib diisi" }),
+    emails: z.string().min(1, { message: "Email wajib diisi" }),
+    phoneNumbers: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
+    agencyName: z.string().min(1, { message: "Nama instansi wajib diisi" }),
+    agencyAddress: z
+      .string()
+      .min(1, { message: "Alamat instansi wajib diisi" }),
+    isGroup: z.boolean(),
+    cancellationReason: z
+      .string()
+      .min(1, { message: "Alasan pembatalan wajib diisi" }),
+    supportingDocumentFile: z.any().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.isGroup) {
+        const namesArray = data.names
+          .split("\n")
+          .filter((name) => name.trim() !== "");
+        const nimsArray = data.nims
+          .split("\n")
+          .filter((nim) => nim.trim() !== "");
+        const emailsArray = data.emails
+          .split("\n")
+          .filter((email) => email.trim() !== "");
+        const phonesArray = data.phoneNumbers
+          .split("\n")
+          .filter((phone) => phone.trim() !== "");
 
-    if (namesArray.length < 2 || namesArray.length > 3) {
-      return false;
+        if (namesArray.length < 2 || namesArray.length > 3) {
+          return false;
+        }
+
+        return (
+          namesArray.length === nimsArray.length &&
+          nimsArray.length === emailsArray.length &&
+          emailsArray.length === phonesArray.length &&
+          emailsArray.every((email) => email.includes("@student.ub.ac.id"))
+        );
+      } else {
+        const hasMultipleNames = data.names.includes("\n");
+        const hasMultipleNims = data.nims.includes("\n");
+        const hasMultipleEmails = data.emails.includes("\n");
+        const hasMultiplePhones = data.phoneNumbers.includes("\n");
+
+        return (
+          !hasMultipleNames &&
+          !hasMultipleNims &&
+          !hasMultipleEmails &&
+          !hasMultiplePhones &&
+          data.emails.includes("@student.ub.ac.id")
+        );
+      }
+    },
+    {
+      message:
+        "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
+      path: ["isGroup"],
     }
-
-    return namesArray.length === nimsArray.length && 
-           nimsArray.length === emailsArray.length &&
-           emailsArray.length === phonesArray.length &&
-           emailsArray.every(email => email.includes('@student.ub.ac.id'));
-  } else {
-    const hasMultipleNames = data.names.includes('\n');
-    const hasMultipleNims = data.nims.includes('\n');
-    const hasMultipleEmails = data.emails.includes('\n');
-    const hasMultiplePhones = data.phoneNumbers.includes('\n');
-    
-    return !hasMultipleNames && !hasMultipleNims && !hasMultipleEmails && !hasMultiplePhones &&
-           data.emails.includes('@student.ub.ac.id');
-  }
-}, {
-  message: "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
-  path: ["isGroup"],
-});
+  );
 
 type CancellationFormData = z.infer<typeof cancellationSchema>;
 
@@ -66,7 +89,7 @@ const InternshipCancellationRequestForm = () => {
 
   const { mutate: requestCancellation } = useRequestCancellation();
   const [fileError, setFileError] = useState<string>("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false); 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const supportingDocumentFile = watch("supportingDocumentFile") as File;
   const isGroupSelected = watch("isGroup") || false;
@@ -81,12 +104,20 @@ const InternshipCancellationRequestForm = () => {
     }
 
     let formattedData;
-    
+
     if (data.isGroup) {
-      const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-      const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-      const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
-      const phonesArray = data.phoneNumbers.split('\n').filter(phone => phone.trim() !== '');
+      const namesArray = data.names
+        .split("\n")
+        .filter((name) => name.trim() !== "");
+      const nimsArray = data.nims
+        .split("\n")
+        .filter((nim) => nim.trim() !== "");
+      const emailsArray = data.emails
+        .split("\n")
+        .filter((email) => email.trim() !== "");
+      const phonesArray = data.phoneNumbers
+        .split("\n")
+        .filter((phone) => phone.trim() !== "");
 
       formattedData = {
         name: namesArray.join(","),
@@ -118,9 +149,9 @@ const InternshipCancellationRequestForm = () => {
     requestCancellation(formattedData, {
       onSuccess: () => {
         toast.success("Pengajuan berhasil disubmit!");
-        setShowSuccessModal(true); 
-        reset(); 
-        setFileError(""); 
+        setShowSuccessModal(true);
+        reset();
+        setFileError("");
       },
       onError: (error) => {
         console.error("Error:", error);
@@ -131,11 +162,16 @@ const InternshipCancellationRequestForm = () => {
 
   return (
     <main className="flex flex-col w-full">
-      <HeaderLayout />
-      <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">Pengajuan Pembatalan Masa PKL</h2>
+      <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">
+        Pengajuan Pembatalan Masa PKL
+      </h2>
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center justify-center text-center bg-primary w-6xl rounded-2xl">
-          <img src="/prosedur.png" alt="Illustration" className="w-full max-w-[497px] rounded-lg" />
+          <img
+            src="/prosedur.png"
+            alt="Illustration"
+            className="w-full max-w-[497px] rounded-lg"
+          />
         </div>
       </div>
       <div className="flex flex-col w-full justify-center items-center">
@@ -181,7 +217,9 @@ const InternshipCancellationRequestForm = () => {
                     rows={3}
                   />
                   {errors.names && (
-                    <p className="text-red-500 text-xs mt-1">{errors.names.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.names.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -209,7 +247,9 @@ const InternshipCancellationRequestForm = () => {
                     rows={3}
                   />
                   {errors.nims && (
-                    <p className="text-red-500 text-xs mt-1">{errors.nims.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.nims.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -237,7 +277,9 @@ const InternshipCancellationRequestForm = () => {
                     rows={3}
                   />
                   {errors.emails && (
-                    <p className="text-red-500 text-xs mt-1">{errors.emails.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.emails.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -266,7 +308,9 @@ const InternshipCancellationRequestForm = () => {
                     rows={3}
                   />
                   {errors.phoneNumbers && (
-                    <p className="text-red-500 text-xs mt-1">{errors.phoneNumbers.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.phoneNumbers.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -322,14 +366,19 @@ const InternshipCancellationRequestForm = () => {
               file={supportingDocumentFile}
               register={register}
               setValue={setValue}
-              error={fileError ? { message: fileError, type: "manual" } : undefined}
+              error={
+                fileError ? { message: fileError, type: "manual" } : undefined
+              }
               label="Dokumen Pendukung"
               className="bg-red-200"
             />
           </div>
 
           <div className="z-10 flex justify-center pb-12">
-            <Button variant="primary" className="py-3 px-16 mt-4 mb-6 text-sm font-semibold">
+            <Button
+              variant="primary"
+              className="py-3 px-16 mt-4 mb-6 text-sm font-semibold"
+            >
               Submit Pengajuan
             </Button>
           </div>
@@ -341,7 +390,6 @@ const InternshipCancellationRequestForm = () => {
         message="Silahkan menunggu balasan akademik"
         onClose={() => setShowSuccessModal(false)}
       />
-      <FooterLayout />
     </main>
   );
 };

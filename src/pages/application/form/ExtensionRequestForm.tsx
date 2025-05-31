@@ -7,54 +7,85 @@ import { Button } from "../../../components/ui/button";
 import toast from "react-hot-toast";
 import { useRequestExtension } from "../../../common/hooks/useInsternship";
 import { z } from "zod";
-import HeaderLayout from "../../../components/layout/HeaderLayout";
-import FooterLayout from "../../../components/layout/FooterLayout";
 import SuccessNotification from "../../../components/ui/successNotification";
 
-const extensionRequestSchema = z.object({
-  names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
-  nims: z.string().min(1, { message: "NIM wajib diisi" }),
-  emails: z.string().min(1, { message: "Email wajib diisi" }),
-  phoneNumbers: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
-  totalSks: z.string().min(1, { message: "Total SKS wajib diisi" }),
-  isGroup: z.boolean(),
-  agencyName: z.string().min(1, { message: "Nama instansi wajib diisi" }),
-  agencyAddress: z.string().min(1, { message: "Alamat instansi wajib diisi" }),
-  startDatePeriod: z.string().min(1, { message: "Tanggal mulai periode wajib diisi" }),
-  finishDatePeriod: z.string().min(1, { message: "Tanggal selesai periode wajib diisi" }),
-  startExtensionDatePeriod: z.string().min(1, { message: "Tanggal mulai perpanjangan wajib diisi" }),
-  finishExtensionDatePeriod: z.string().min(1, { message: "Tanggal selesai perpanjangan wajib diisi" }),
-  reasonExtension: z.string().min(1, { message: "Alasan perpanjangan wajib diisi" }),
-  internshipApplicationFile: z.any().optional(),
-  intershipExtensionFile: z.any().optional(),
-}).refine((data) => {
-  if (data.isGroup) {
-    const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-    const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-    const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
-    const phonesArray = data.phoneNumbers.split('\n').filter(phone => phone.trim() !== '');
+const extensionRequestSchema = z
+  .object({
+    names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
+    nims: z.string().min(1, { message: "NIM wajib diisi" }),
+    emails: z.string().min(1, { message: "Email wajib diisi" }),
+    phoneNumbers: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
+    totalSks: z.string().min(1, { message: "Total SKS wajib diisi" }),
+    isGroup: z.boolean(),
+    agencyName: z.string().min(1, { message: "Nama instansi wajib diisi" }),
+    agencyAddress: z
+      .string()
+      .min(1, { message: "Alamat instansi wajib diisi" }),
+    startDatePeriod: z
+      .string()
+      .min(1, { message: "Tanggal mulai periode wajib diisi" }),
+    finishDatePeriod: z
+      .string()
+      .min(1, { message: "Tanggal selesai periode wajib diisi" }),
+    startExtensionDatePeriod: z
+      .string()
+      .min(1, { message: "Tanggal mulai perpanjangan wajib diisi" }),
+    finishExtensionDatePeriod: z
+      .string()
+      .min(1, { message: "Tanggal selesai perpanjangan wajib diisi" }),
+    reasonExtension: z
+      .string()
+      .min(1, { message: "Alasan perpanjangan wajib diisi" }),
+    internshipApplicationFile: z.any().optional(),
+    intershipExtensionFile: z.any().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.isGroup) {
+        const namesArray = data.names
+          .split("\n")
+          .filter((name) => name.trim() !== "");
+        const nimsArray = data.nims
+          .split("\n")
+          .filter((nim) => nim.trim() !== "");
+        const emailsArray = data.emails
+          .split("\n")
+          .filter((email) => email.trim() !== "");
+        const phonesArray = data.phoneNumbers
+          .split("\n")
+          .filter((phone) => phone.trim() !== "");
 
-    if (namesArray.length < 2 || namesArray.length > 3) {
-      return false;
+        if (namesArray.length < 2 || namesArray.length > 3) {
+          return false;
+        }
+
+        return (
+          namesArray.length === nimsArray.length &&
+          nimsArray.length === emailsArray.length &&
+          emailsArray.length === phonesArray.length &&
+          emailsArray.every((email) => email.includes("@student.ub.ac.id"))
+        );
+      } else {
+        const hasMultipleNames = data.names.includes("\n");
+        const hasMultipleNims = data.nims.includes("\n");
+        const hasMultipleEmails = data.emails.includes("\n");
+        const hasMultiplePhones = data.phoneNumbers.includes("\n");
+
+        return (
+          !hasMultipleNames &&
+          !hasMultipleNims &&
+          !hasMultipleEmails &&
+          !hasMultiplePhones &&
+          data.emails.includes("@student.ub.ac.id")
+        );
+      }
+    },
+    {
+      message:
+        "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
+      path: ["isGroup"],
     }
-
-    return namesArray.length === nimsArray.length && 
-           nimsArray.length === emailsArray.length &&
-           emailsArray.length === phonesArray.length &&
-           emailsArray.every(email => email.includes('@student.ub.ac.id'));
-  } else {
-    const hasMultipleNames = data.names.includes('\n');
-    const hasMultipleNims = data.nims.includes('\n');
-    const hasMultipleEmails = data.emails.includes('\n');
-    const hasMultiplePhones = data.phoneNumbers.includes('\n');
-    
-    return !hasMultipleNames && !hasMultipleNims && !hasMultipleEmails && !hasMultiplePhones &&
-           data.emails.includes('@student.ub.ac.id');
-  }
-}, {
-  message: "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
-  path: ["isGroup"],
-});
+  );
 
 type ExtensionRequestFormData = z.infer<typeof extensionRequestSchema>;
 
@@ -94,27 +125,42 @@ const ExtensionRequestForm = () => {
     }
 
     let formattedData;
-    
+
     if (data.isGroup) {
-      const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-      const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-      const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
-      const phonesArray = data.phoneNumbers.split('\n').filter(phone => phone.trim() !== '');
-      const totalSksArray = data.totalSks.split('\n').filter(sks => sks.trim() !== '');
+      const namesArray = data.names
+        .split("\n")
+        .filter((name) => name.trim() !== "");
+      const nimsArray = data.nims
+        .split("\n")
+        .filter((nim) => nim.trim() !== "");
+      const emailsArray = data.emails
+        .split("\n")
+        .filter((email) => email.trim() !== "");
+      const phonesArray = data.phoneNumbers
+        .split("\n")
+        .filter((phone) => phone.trim() !== "");
+      const totalSksArray = data.totalSks
+        .split("\n")
+        .filter((sks) => sks.trim() !== "");
 
       formattedData = {
         name: namesArray.join(","),
         nim: nimsArray.join(","),
         email: emailsArray.join(","),
         phoneNumber: phonesArray.join(","),
-        totalSks: totalSksArray.length > 1 ? totalSksArray.join(",") : data.totalSks,
+        totalSks:
+          totalSksArray.length > 1 ? totalSksArray.join(",") : data.totalSks,
         isGroup: data.isGroup,
         agencyName: data.agencyName,
         agencyAddress: data.agencyAddress,
         startDatePeriod: new Date(data.startDatePeriod).toISOString(),
         finishDatePeriod: new Date(data.finishDatePeriod).toISOString(),
-        startExtensionDatePeriod: new Date(data.startExtensionDatePeriod).toISOString(),
-        finishExtensionDatePeriod: new Date(data.finishExtensionDatePeriod).toISOString(),
+        startExtensionDatePeriod: new Date(
+          data.startExtensionDatePeriod
+        ).toISOString(),
+        finishExtensionDatePeriod: new Date(
+          data.finishExtensionDatePeriod
+        ).toISOString(),
         reasonExtension: data.reasonExtension,
         internshipApplicationFile: internshipApplicationFile,
         intershipExtensionFile: intershipExtensionFile,
@@ -131,8 +177,12 @@ const ExtensionRequestForm = () => {
         agencyAddress: data.agencyAddress,
         startDatePeriod: new Date(data.startDatePeriod).toISOString(),
         finishDatePeriod: new Date(data.finishDatePeriod).toISOString(),
-        startExtensionDatePeriod: new Date(data.startExtensionDatePeriod).toISOString(),
-        finishExtensionDatePeriod: new Date(data.finishExtensionDatePeriod).toISOString(),
+        startExtensionDatePeriod: new Date(
+          data.startExtensionDatePeriod
+        ).toISOString(),
+        finishExtensionDatePeriod: new Date(
+          data.finishExtensionDatePeriod
+        ).toISOString(),
         reasonExtension: data.reasonExtension,
         internshipApplicationFile: internshipApplicationFile,
         intershipExtensionFile: intershipExtensionFile,
@@ -158,13 +208,16 @@ const ExtensionRequestForm = () => {
 
   return (
     <main className="flex flex-col w-full">
-      <HeaderLayout />
       <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">
         Pengajuan Perpanjangan Masa PKL
       </h2>
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center justify-center text-center bg-primary w-6xl rounded-2xl">
-          <img src="/prosedur.png" alt="Illustration" className="w-full max-w-[497px] rounded-lg" />
+          <img
+            src="/prosedur.png"
+            alt="Illustration"
+            className="w-full max-w-[497px] rounded-lg"
+          />
         </div>
       </div>
       <div className="flex flex-col w-full justify-center items-center">
@@ -210,7 +263,9 @@ const ExtensionRequestForm = () => {
                     rows={3}
                   />
                   {errors.names && (
-                    <p className="text-red-500 text-xs mt-1">{errors.names.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.names.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -238,7 +293,9 @@ const ExtensionRequestForm = () => {
                     rows={3}
                   />
                   {errors.nims && (
-                    <p className="text-red-500 text-xs mt-1">{errors.nims.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.nims.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -266,7 +323,9 @@ const ExtensionRequestForm = () => {
                     rows={3}
                   />
                   {errors.emails && (
-                    <p className="text-red-500 text-xs mt-1">{errors.emails.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.emails.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -295,7 +354,9 @@ const ExtensionRequestForm = () => {
                     rows={3}
                   />
                   {errors.phoneNumbers && (
-                    <p className="text-red-500 text-xs mt-1">{errors.phoneNumbers.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.phoneNumbers.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -323,7 +384,9 @@ const ExtensionRequestForm = () => {
                     rows={3}
                   />
                   {errors.totalSks && (
-                    <p className="text-red-500 text-xs mt-1">{errors.totalSks.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.totalSks.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -417,7 +480,11 @@ const ExtensionRequestForm = () => {
               file={internshipApplicationFile}
               register={register}
               setValue={setValue}
-              error={applicationFileError ? { message: applicationFileError, type: "manual" } : undefined}
+              error={
+                applicationFileError
+                  ? { message: applicationFileError, type: "manual" }
+                  : undefined
+              }
               label="File Aplikasi Magang"
               className="bg-red-200"
             />
@@ -429,14 +496,21 @@ const ExtensionRequestForm = () => {
               file={intershipExtensionFile}
               register={register}
               setValue={setValue}
-              error={extensionFileError ? { message: extensionFileError, type: "manual" } : undefined}
+              error={
+                extensionFileError
+                  ? { message: extensionFileError, type: "manual" }
+                  : undefined
+              }
               label="File Perpanjangan Magang"
               className="bg-red-200"
             />
           </div>
 
           <div className="z-10 flex justify-center pb-12">
-            <Button variant="primary" className="py-3 px-16 mt-4 mb-6 text-sm font-semibold">
+            <Button
+              variant="primary"
+              className="py-3 px-16 mt-4 mb-6 text-sm font-semibold"
+            >
               Submit Pengajuan
             </Button>
           </div>
@@ -448,7 +522,6 @@ const ExtensionRequestForm = () => {
         message="Silahkan menunggu balasan akademik"
         onClose={() => setShowSuccessModal(false)}
       />
-      <FooterLayout />
     </main>
   );
 };
