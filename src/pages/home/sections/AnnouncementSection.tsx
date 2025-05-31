@@ -29,8 +29,8 @@ const AnnouncementSection = () => {
       <div className="h-1 w-70 bg-gradient-to-l from-secondary from-60% to-primary to-100% mb-10" />
       <ul className="flex flex-col gap-5">
         {sortedAnnouncements.length === 0 ? (
-          <li className="text-lg font-medium text-center mt-12 text-white">
-            Tidak ada pengumuman.
+          <li className="text-lg font-semibold text-center mt-12 text-white">
+            Tidak ada pengumuman
           </li>
         ) : (
           sortedAnnouncements.map((announcement) => (
@@ -49,13 +49,16 @@ const AnnouncementSection = () => {
           ))
         )}
       </ul>
-      <div className="flex justify-start pl-20 mt-6">
-        <Link to="/info/pengumuman">
-          <Button variant="secondary" className="text-sm cursor-pointer px-20 py-3">
-            Lihat Lainnya <span className="ml-2 text-sm font-semibold">→</span>
-          </Button>
-        </Link>
-      </div>
+
+      {sortedAnnouncements.length > 0 && (
+        <div className="flex justify-start pl-20 mt-6">
+          <Link to="/info/pengumuman">
+            <Button variant="secondary" className="text-sm cursor-pointer px-20 py-3">
+              Lihat Lainnya <span className="ml-2 text-sm font-semibold">→</span>
+            </Button>
+          </Link>
+        </div>
+      )}
     </section>
   );
 };

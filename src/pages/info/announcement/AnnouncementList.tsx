@@ -31,7 +31,7 @@ const AnnouncementList = () => {
         <div className="w-full overflow-y-auto">
           <ul className="flex flex-col gap-5 w-full">
             {sortedAnnouncements.length === 0 ? (
-              <li className="text-lg font-medium text-center mt-12 text-white">Tidak ada pengumuman.</li>
+              <li className="text-lg font-medium text-center mt-12 text-white">Tidak ada pengumuman</li>
             ) : (
               sortedAnnouncements.map((announcement) => (
                 <li

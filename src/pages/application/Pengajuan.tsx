@@ -1,4 +1,4 @@
-import FooterLayout from "../../components/layout/HeaderLayout";
+import FooterLayout from "../../components/layout/FooterLayout";
 import HeaderLayout from "../../components/layout/HeaderLayout";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router-dom";
@@ -39,7 +39,7 @@ const Pengajuan = () => {
   ];
 
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col min-h-screen">
       <HeaderLayout />
       <div className="text-white pt-30 py-16 px-10 justify-center items-center bg-primary w-full">
         {sections.map((section, index) => (

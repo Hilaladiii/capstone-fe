@@ -24,8 +24,10 @@ const PartnerSection = () => {
     return <div>Error fetching partners</div>;
   }
 
+  const partners = data?.data?.partner || []; 
+
   return (
-    <section className="flex flex-col items-center py-20 bg-white w-full">
+    <section className="flex flex-col items-center py-20 bg-white w-full min-h-screen">
       <div className="flex justify-between items-center mb-14 w-full">
         <div className="h-2 bg-gradient-to-l from-black to-white w-150" />
         <h2 className="flex text-2xl font-bold text-secondary whitespace-nowrap">Mitra FILKOM</h2>
@@ -33,10 +35,10 @@ const PartnerSection = () => {
       </div>
 
       <div className="grid lg:grid-cols-4 w-5xl gap-8">
-        {data?.data?.partner.length === 0 ? (
-          <div className="col-span-3 text-lg text-gray-500 text-center py-10">Tidak ada mitra.</div>
+        {partners.length === 0 ? (
+          <div className="col-span-4 text-lg font-semibold text-black text-center py-10">Tidak ada mitra</div>
         ) : (
-          data?.data?.partner.slice(0, 8).map((partner) => (
+          partners.slice(0, 8).map((partner) => (
             <CardPartner
               key={partner.partnerId} 
               title={partner.name} 
@@ -47,11 +49,13 @@ const PartnerSection = () => {
         )}
       </div>
 
-      <Link to="/info/mitra">
-        <Button variant="secondary" className="mt-10 py-3 px-14 cursor-pointer font-semibold text-sm">
-          Lihat Semua Mitra <span className="ml-2 text-sm font-semibold">→</span>
-        </Button>
-      </Link>
+      {partners.length > 0 && (
+        <Link to="/info/mitra">
+          <Button variant="secondary" className="mt-10 py-3 px-14 cursor-pointer font-semibold text-sm">
+            Lihat Semua Mitra <span className="ml-2 text-sm font-semibold">→</span>
+          </Button>
+        </Link>
+      )}
     </section>
   );
 };

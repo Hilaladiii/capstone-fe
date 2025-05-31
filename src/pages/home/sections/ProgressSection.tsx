@@ -1,7 +1,7 @@
 import { useInternshipStatus } from "../../../common/hooks/useInsternship";
 
-const ProgressStatus = () => {
-  const { data: progress, error, isLoading } = useInternshipStatus();
+const ProgressSection = () => {
+  const { data: progress} = useInternshipStatus();
 
   const stages = [
     { key: "DOCUMENT_VERIFICATION", label: "Verifikasi Berkas" },
@@ -10,15 +10,9 @@ const ProgressStatus = () => {
     { key: "COMPLETED", label: "Sudah Dikirim" },
   ];
 
-  const currentStageIndex = stages.findIndex((stage) => stage.key === progress);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500">Error: {error.message}</div>;
-  }
+  const currentStageIndex = progress 
+    ? stages.findIndex((stage) => stage.key === progress)
+    : -1;
 
   return (
     <section className="w-full mx-auto py-20 bg-primary">
@@ -45,4 +39,4 @@ const ProgressStatus = () => {
   );
 };
 
-export default ProgressStatus;
+export default ProgressSection;
