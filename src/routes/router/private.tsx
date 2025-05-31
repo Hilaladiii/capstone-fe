@@ -12,6 +12,11 @@ import CompanyApplicationForm from "../../pages/application/form/CompanyApplicat
 import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
+import DashboardAcademic from "../../pages/academic/DashboardAcademic";
+import SidebarAcademicLayout from "../../components/layout/SidebarAcademicLayout";
+import AnnouncementAdmin from "../../pages/academic/AnnouncementAdmin";
+import PartnerAdmin from "../../pages/academic/PartnerAdmin";
+import ProfileAcademic from "../../pages/academic/profile/ProfileAcademic";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -65,5 +70,27 @@ export const privateRoute: RouteObject[] = [
   {
     path: "/perpanjangan-pkl",
     element: <ExtensionRequestForm />,
+  },
+  {
+    path: "",
+    Component: SidebarAcademicLayout,
+    children: [
+      {
+        path: "/dashboard/academic",
+        element: <DashboardAcademic />,
+      },
+      {
+        path: "/pengumuman",
+        element: <AnnouncementAdmin />,
+      },
+      {
+        path: "/mitra-pkl",
+        element: <PartnerAdmin />,
+      },
+      {
+        path: "/profile",
+        element: <ProfileAcademic />,
+      },
+    ],
   },
 ];
