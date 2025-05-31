@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 import { Link } from "react-router-dom";
 import FormAuthLayout from "../../components/layout/FormAuthLayout";
 import { signUpSchema, SignUp } from "../../common/validation/user.validation";
-import { useSignUp } from "../../common/hooks/useSignUp";
+import { useSignUp } from "../../common/hooks/useSignUpStudent";
 
 const RegisterStudent = () => {
   const { mutate: signUp, isPending } = useSignUp();

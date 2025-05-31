@@ -2,52 +2,27 @@ import { useMutation } from "@tanstack/react-query";
 import { SignIn } from "../validation/auth.validation";
 import { AuthService } from "../../services/auth/auth.service";
 import toast from "react-hot-toast";
-import { useCookies } from "react-cookie";
 import { axiosErrorHandling } from "../../services/setup.service";
 import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "../types/user.type";
-
-interface SignInWithRemember extends SignIn {
-  rememberMe: boolean;
-}
+import Cookies from "universal-cookie";
 
 export function useSignIn() {
-  const [, setCookie] = useCookies(["token", "userClaims"]);
-  
+  const cookies = new Cookies(null, { path: "/" });
   return useMutation({
-    mutationFn: (data: SignInWithRemember) => {
-      const { email, password } = data;
-      return AuthService.signIn({ email, password });
-    },
-    onSuccess: (response, variables) => {
+    mutationFn: (data: SignIn) => AuthService.signIn(data),
+    onSuccess: (response) => {
       const token = response.data.data.token;
-      const decodedToken = jwtDecode<JwtPayload>(token);
-      
-      const currentTime = Math.floor(Date.now() / 1000);
-      const tokenExpiration = decodedToken.exp && decodedToken.exp > currentTime 
-        ? decodedToken.exp - currentTime 
-        : 24 * 60 * 60;
-        
-      const cookieMaxAge = variables.rememberMe 
-        ? 30 * 24 * 60 * 60
-        : tokenExpiration;
-      
-      setCookie("token", token, {
+      const decodedToken = jwtDecode(token);
+      cookies.set("token", token, {
         path: "/",
-        maxAge: cookieMaxAge,
+        maxAge: decodedToken.exp,
       });
-      
-      const userClaimsWithRemember = {
-        ...decodedToken,
-        rememberMe: variables.rememberMe
-      };
-      
-      setCookie("userClaims", userClaimsWithRemember, {
+      cookies.set("userClaims", decodedToken, {
         path: "/",
-        maxAge: cookieMaxAge,
+        maxAge: decodedToken.exp,
       });
-      
       toast.success(response.data.message);
+      window.location.reload();
     },
     onError: (error) => {
       const message = axiosErrorHandling(error);
