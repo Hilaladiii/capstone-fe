@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../common/constants";
+import Cookies from "universal-cookie";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -8,13 +9,14 @@ const axiosInstance = axios.create({
   },
 });
 
-export const setAuthToken = (token: string | null) => {
+axiosInstance.interceptors.request.use((config) => {
+  const cookies = new Cookies(null, { path: "/" });
+  const token = cookies.get("token");
   if (token) {
-    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axiosInstance.defaults.headers.common["Authorization"];
+    config.headers.Authorization = `Bearer ${token}`;
   }
-};
+  return config;
+});
 
 axiosInstance.interceptors.response.use(
   (response) => response,

@@ -1,5 +1,5 @@
 import axiosInstance from "../../services/setup.service";
-import { NotificationResponse, UnreadCountResponse } from "../../common/types/notification.type";
+import { NotificationResponse, UnreadCountResponse, MarkAsReadResponse } from "../../common/types/notification.type";
 
 export class NotificationService {
   static fetchNotifications() {
@@ -11,6 +11,6 @@ export class NotificationService {
   }
 
   static markNotificationsAsRead() {
-    return axiosInstance.patch('/notification/read');
+    return axiosInstance.patch<MarkAsReadResponse>('/notification/read');
   }
 }

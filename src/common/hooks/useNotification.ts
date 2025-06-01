@@ -1,52 +1,54 @@
-import { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { useAuth } from "../../common/hooks/useAuth";
 import { NotificationService } from "../../services/notification/notification.service";
-import { Notification } from "../types/notification.type";
-import { setAuthToken } from "../../services/setup.service";
+import { axiosErrorHandling } from "../../services/setup.service";
 
 export function useNotifications() {
   const { token } = useAuth();
-  const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setAuthToken(token);
-  }, [token]);
+  const {
+    data: notificationsData,
+    isLoading: notificationsLoading,
+    error: notificationsError,
+  } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => NotificationService.fetchNotifications(),
+    enabled: !!token,
+    select: (response) => response.data.data,
+  });
 
-  useEffect(() => {
-    if (!token) return;
+  const {
+    data: unreadCountData,
+    isLoading: unreadCountLoading,
+    error: unreadCountError,
+  } = useQuery({
+    queryKey: ["notifications", "unread-count"],
+    queryFn: () => NotificationService.fetchUnreadCount(),
+    enabled: !!token,
+    select: (response) => response.data.data,
+  });
 
-    const fetchNotifications = async () => {
-      try {
-        const response = await NotificationService.fetchNotifications();
-        setNotifications(response.data.data);
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
-      }
-    };
+  const markAsReadMutation = useMutation({
+    mutationFn: () => NotificationService.markNotificationsAsRead(),
+    onSuccess: (response) => {
+      toast.success(response.data.message);
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", "unread-count"] });
+    },
+    onError: (error) => {
+      const message = axiosErrorHandling(error, "Failed to mark notifications as read");
+      toast.error(message);
+    },
+  });
 
-    const fetchUnreadCount = async () => {
-      try {
-        const response = await NotificationService.fetchUnreadCount();
-        setUnreadCount(response.data.data);
-      } catch (error) {
-        console.error("Error fetching unread count:", error);
-      }
-    };
-
-    fetchNotifications();
-    fetchUnreadCount();
-  }, [token]);
-
-  const markNotificationsAsRead = async () => {
-    try {
-      await NotificationService.markNotificationsAsRead();
-      setUnreadCount(0);
-      setNotifications([]);
-    } catch (error) {
-      console.error("Error marking notifications as read:", error);
-    }
+  return {
+    notifications: notificationsData || [],
+    unreadCount: unreadCountData || 0,
+    isLoading: notificationsLoading || unreadCountLoading,
+    isError: notificationsError || unreadCountError,
+    markNotificationsAsRead: markAsReadMutation.mutate,
+    isMarkingAsRead: markAsReadMutation.isPending,
   };
-
-  return { unreadCount, notifications, markNotificationsAsRead };
 }
