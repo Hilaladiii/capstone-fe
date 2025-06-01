@@ -1,11 +1,21 @@
 import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../common/constants";
+import Cookies from "universal-cookie";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const cookies = new Cookies(null, { path: "/" });
+  const token = cookies.get("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 axiosInstance.interceptors.response.use(

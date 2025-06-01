@@ -4,7 +4,7 @@ import Info from "../../pages/info";
 import ListMitra from "../../pages/info/ListMitra";
 import Pengajuan from "../../pages/Pengajuan";
 import Notification from "../../pages/Notification/NotificationList";
-import Profile from "../../pages/Profile";
+import Profile from "../../pages/profile/Profile";
 import AnnouncementList from "../../pages/pengumuman/AnnouncementList";
 import AnnouncementDetail from "../../pages/pengumuman/AnnouncementDetail";
 import UpdateLogbookForm from "../../pages/Logbook";
