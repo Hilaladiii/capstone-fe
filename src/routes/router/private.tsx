@@ -12,68 +12,75 @@ import CompanyApplicationForm from "../../pages/application/form/CompanyApplicat
 import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
-import DashboardAcademic from "../../pages/academic/DashboardAcademic";
 import SidebarAcademicLayout from "../../components/layout/SidebarAcademicLayout";
 import AnnouncementAdmin from "../../pages/academic/AnnouncementAdmin";
 import PartnerAdmin from "../../pages/academic/PartnerAdmin";
 import ProfileAcademic from "../../pages/academic/profile/ProfileAcademic";
 import MainLayout from "../../components/layout/MainLayout";
+import RoleGuard from "../RoleGuard";
+import { Roles } from "../../common/types/user.type";
+import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
 
 export const privateRoute: RouteObject[] = [
   {
     Component: MainLayout,
     children: [
       {
-        path: "/home",
-        element: <Home />,
-      },
-      {
-        path: "/info/umum",
-        element: <Information />,
-      },
-      {
-        path: "/info/mitra",
-        element: <ListMitra />,
-      },
-      {
-        path: "/pengajuan",
-        element: <Pengajuan />,
-      },
-      {
-        path: "/logbook",
-        element: <Logbook />,
-      },
-      {
-        path: "/notification",
-        element: <Notification />,
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-      },
-      {
-        path: "/pengumuman/:id",
-        element: <AnnouncementDetail />,
-      },
-      {
-        path: "/info/pengumuman",
-        element: <AnnouncementList />,
-      },
-      {
-        path: "/pembatalan-pkl",
-        element: <CancellationRequestForm />,
-      },
-      {
-        path: "/pkl-instansi",
-        element: <CompanyApplicationForm />,
-      },
-      {
-        path: "/pkl-lomba",
-        element: <CompetitionApplicationForm />,
-      },
-      {
-        path: "/perpanjangan-pkl",
-        element: <ExtensionRequestForm />,
+        element: <RoleGuard allowedRoles={[Roles.STUDENT]} />,
+        children: [
+          {
+            path: "/home",
+            element: <Home />,
+          },
+          {
+            path: "/info/umum",
+            element: <Information />,
+          },
+          {
+            path: "/info/mitra",
+            element: <ListMitra />,
+          },
+          {
+            path: "/pengajuan",
+            element: <Pengajuan />,
+          },
+          {
+            path: "/logbook",
+            element: <Logbook />,
+          },
+          {
+            path: "/notification",
+            element: <Notification />,
+          },
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+          {
+            path: "/pengumuman/:id",
+            element: <AnnouncementDetail />,
+          },
+          {
+            path: "/info/pengumuman",
+            element: <AnnouncementList />,
+          },
+          {
+            path: "/pembatalan-pkl",
+            element: <CancellationRequestForm />,
+          },
+          {
+            path: "/pkl-instansi",
+            element: <CompanyApplicationForm />,
+          },
+          {
+            path: "/pkl-lomba",
+            element: <CompetitionApplicationForm />,
+          },
+          {
+            path: "/perpanjangan-pkl",
+            element: <ExtensionRequestForm />,
+          },
+        ],
       },
     ],
   },
@@ -83,7 +90,7 @@ export const privateRoute: RouteObject[] = [
     children: [
       {
         path: "/dashboard/academic",
-        element: <DashboardAcademic />,
+        element: <ApplicationAcademic />,
       },
       {
         path: "/pengumuman",

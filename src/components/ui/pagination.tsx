@@ -4,13 +4,13 @@ interface PaginationProps {
   onPageChange: (index: number) => void;
   onNext: () => void;
   onPrevious: () => void;
-  primaryColor?: string;    
-  textColor?: string;       
-  borderColor?: string;     
-  hoverBgColor?: string;    
-  hoverTextColor?: string;  
-  activeBgColor?: string;   
-  activeTextColor?: string; 
+  primaryColor?: string;
+  textColor?: string;
+  borderColor?: string;
+  hoverBgColor?: string;
+  hoverTextColor?: string;
+  activeBgColor?: string;
+  activeTextColor?: string;
 }
 
 const Pagination = ({
@@ -19,12 +19,12 @@ const Pagination = ({
   onPageChange,
   onNext,
   onPrevious,
-  textColor = 'text-white',
-  borderColor = 'border-white',
-  hoverBgColor = 'hover:bg-white',
-  hoverTextColor = 'hover:text-primary',
-  activeBgColor = 'bg-white',
-  activeTextColor = 'text-primary',
+  textColor = "text-white",
+  borderColor = "border-white",
+  hoverBgColor = "hover:bg-white",
+  hoverTextColor = "hover:text-primary",
+  activeBgColor = "bg-white",
+  activeTextColor = "text-primary",
 }: PaginationProps) => {
   const createPageNumbers = () => {
     const pages = [];
@@ -50,7 +50,7 @@ const Pagination = ({
 
   return (
     <nav aria-label="Page navigation">
-      <ul className="flex items-center h-10 text-base justify-center">
+      <ul className="flex items-center h-10 text-base justify-center ">
         <li>
           <button
             onClick={onPrevious}
@@ -71,12 +71,18 @@ const Pagination = ({
         {pageNumbers.map((page, i) => (
           <li key={i}>
             {page === -1 ? (
-              <span className={`px-4 h-10 flex items-center ${textColor} ${borderColor} border`}>...</span>
+              <span
+                className={`px-4 h-10 flex items-center ${textColor} ${borderColor} border`}
+              >
+                ...
+              </span>
             ) : (
               <button
                 onClick={() => onPageChange(page)}
                 className={`flex items-center justify-center px-4 h-10 border ${borderColor} ${hoverBgColor} ${hoverTextColor} ${
-                  currentIndex === page ? `${activeTextColor} ${activeBgColor}` : textColor
+                  currentIndex === page
+                    ? `${activeTextColor} ${activeBgColor}`
+                    : textColor
                 }`}
               >
                 {page + 1}
