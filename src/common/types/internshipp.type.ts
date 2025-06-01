@@ -1,5 +1,12 @@
 export type InternshipStatus = string;
 
+export enum InternshipType {
+  COMPETITION = "COMPETITION",
+  COMPANY = "COMPANY",
+  EXTENSION = "EXTENSION",
+  CANCELLATION = "CANCELLATION",
+}
+
 export interface InternshipData {
   status: InternshipStatus;
 }
@@ -126,4 +133,44 @@ export interface ApplicationResponse {
     isGroup: boolean;
     studentNim: string;
   };
+}
+
+export interface DocumentFile {
+  fileId: string;
+  documentId: string;
+  type: string;
+  fileUrl: string;
+  originalName: string;
+  signed: boolean;
+  createdAt: string;
+}
+
+export interface InternshipApplicationCompetition {
+  documentId: string;
+  totalSks: string;
+  competitionName: string;
+  competitionSupervisor: string;
+  competitionCategory: string;
+  competitionOrganizer: string;
+  competitionInformation: string;
+  competitionLevel: string;
+  competitionWinner: string;
+  competitionProduct: string;
+  competitionStartDate: string;
+  competitionFinishDate: string;
+}
+
+export interface InternshipCompetitionResponse {
+  documentId: string;
+  name: string;
+  nim: string;
+  phoneNumber: string;
+  email: string;
+  createdAt: string;
+  status: string;
+  rejectionReason: string | null;
+  isGroup: boolean;
+  studentNim: string;
+  documentFiles: DocumentFile[];
+  internshipApplicationCompetition: InternshipApplicationCompetition;
 }

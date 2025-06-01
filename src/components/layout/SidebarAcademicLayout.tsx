@@ -26,7 +26,9 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `${baseStyles} ${isActive ? activeStyles : inactiveStyles} ${className} focus:outline-none`
+        `${baseStyles} ${
+          isActive ? activeStyles : inactiveStyles
+        } ${className} focus:outline-none`
       }
     >
       <div className="flex items-center w-full h-15">
@@ -86,7 +88,9 @@ const SidebarAcademicLayout = () => {
         </NavLink>
       </div>
 
-      <Outlet />
+      <div className="ml-11 mt-20">
+        <Outlet />
+      </div>
     </header>
   );
 };

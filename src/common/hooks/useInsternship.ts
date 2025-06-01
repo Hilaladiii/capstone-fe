@@ -11,6 +11,7 @@ import {
   CompetitionApplicationRequest,
   ExtensionRequest,
   ApplicationResponse,
+  InternshipType,
 } from "../types/internshipp.type";
 
 export function useInternshipStatus() {
@@ -20,38 +21,53 @@ export function useInternshipStatus() {
   });
 }
 
+export function useInternship(type: InternshipType) {
+  return useQuery({
+    queryKey: ["internship", type],
+    queryFn: () => InternshipService.getInternshipApplication(type),
+  });
+}
+
 export function useRequestCancellation() {
   return useMutation<CancellationResponse, Error, CancellationRequest>({
-    mutationFn: (data: CancellationRequest) => InternshipService.requestCancellation(data),
+    mutationFn: (data: CancellationRequest) =>
+      InternshipService.requestCancellation(data),
   });
 }
 
 export function useUpdateInternshipCompany(internshipId: string) {
   return useMutation<UpdateResponse, Error, UpdateCompanyRequest>({
-    mutationFn: (data: UpdateCompanyRequest) => InternshipService.updateInternshipCompany(internshipId, data),
+    mutationFn: (data: UpdateCompanyRequest) =>
+      InternshipService.updateInternshipCompany(internshipId, data),
   });
 }
 
 export function useUpdateInternshipCancellation(cancellationId: string) {
   return useMutation<UpdateResponse, Error, UpdateCancellationRequest>({
-    mutationFn: (data: UpdateCancellationRequest) => InternshipService.updateInternshipCancellation(cancellationId, data),
+    mutationFn: (data: UpdateCancellationRequest) =>
+      InternshipService.updateInternshipCancellation(cancellationId, data),
   });
 }
 
 export function useRequestCompanyApplication() {
   return useMutation<ApplicationResponse, Error, CompanyApplicationRequest>({
-    mutationFn: (data: CompanyApplicationRequest) => InternshipService.requestCompanyApplication(data),
+    mutationFn: (data: CompanyApplicationRequest) =>
+      InternshipService.requestCompanyApplication(data),
   });
 }
 
 export function useRequestCompetitionApplication() {
-  return useMutation<ApplicationResponse, Error, CompetitionApplicationRequest>({
-    mutationFn: (data: CompetitionApplicationRequest) => InternshipService.requestCompetitionApplication(data),
-  });
+  return useMutation<ApplicationResponse, Error, CompetitionApplicationRequest>(
+    {
+      mutationFn: (data: CompetitionApplicationRequest) =>
+        InternshipService.requestCompetitionApplication(data),
+    }
+  );
 }
 
 export function useRequestExtension() {
   return useMutation<ApplicationResponse, Error, ExtensionRequest>({
-    mutationFn: (data: ExtensionRequest) => InternshipService.requestExtension(data),
+    mutationFn: (data: ExtensionRequest) =>
+      InternshipService.requestExtension(data),
   });
 }

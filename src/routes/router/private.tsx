@@ -12,7 +12,6 @@ import CompanyApplicationForm from "../../pages/application/form/CompanyApplicat
 import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
-import DashboardAcademic from "../../pages/academic/DashboardAcademic";
 import SidebarAcademicLayout from "../../components/layout/SidebarAcademicLayout";
 import AnnouncementAdmin from "../../pages/academic/AnnouncementAdmin";
 import PartnerAdmin from "../../pages/academic/PartnerAdmin";
@@ -20,6 +19,7 @@ import ProfileAcademic from "../../pages/academic/profile/ProfileAcademic";
 import MainLayout from "../../components/layout/MainLayout";
 import RoleGuard from "../RoleGuard";
 import { Roles } from "../../common/types/user.type";
+import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -90,7 +90,7 @@ export const privateRoute: RouteObject[] = [
     children: [
       {
         path: "/dashboard/academic",
-        element: <DashboardAcademic />,
+        element: <ApplicationAcademic />,
       },
       {
         path: "/pengumuman",
