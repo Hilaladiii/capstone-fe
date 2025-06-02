@@ -1,8 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { axiosErrorHandling } from "../../services/setup.service";
 import { InternshipService } from "../../services/internship/internship.service";
-import { InternshipApplication, InternshipCompetitionApplication, InternshipExtensionApplication, InternshipCancellationApplication } from "../types/internshipp.type";
+import { 
+  InternshipApplication, 
+  InternshipCompetitionApplication, 
+  InternshipExtensionApplication, 
+  InternshipCancellationApplication,
+  InternshipStatus 
+} from "../types/internshipp.type";
 
 export function useInternship() {
   return useMutation({
@@ -53,5 +59,12 @@ export function useInternshipCancellation() {
       const message = axiosErrorHandling(error);
       toast.error(message);
     },
+  });
+}
+
+export function useInternshipStatus() {
+  return useQuery<InternshipStatus, Error>({
+    queryKey: ["internshipStatus"],
+    queryFn: InternshipService.getApplicationStatus,
   });
 }

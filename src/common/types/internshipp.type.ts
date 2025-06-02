@@ -36,7 +36,7 @@ export interface InternshipCompetitionApplication {
   competitionCategory: string;
   competitionOrganizer: string;
   competitionInformation: string;
-  competitionLevel: 'Local' | 'Regional' | 'National' | 'International' | '';
+  competitionLevel: "Local" | "Regional" | "National" | "International" | "";
   competitionWinner: string;
   competitionProduct: string;
   competitionStartDate: string;
@@ -75,4 +75,16 @@ export interface InternshipCancellationApplication {
   agencyAddress: string;
   cancellationReason: string;
   supportingDocumentFile: File | null;
+}
+
+export type InternshipStatus = "DOCUMENT_VERIFICATION" | "DOCUMENT_REVISION" | "HEAD_LECTURER_SIGNATURE_PROCESS" | "COMPLETED" | string;
+
+export interface InternshipData {
+  status: InternshipStatus;
+}
+
+export interface InternshipResponse {
+  statusCode: number;
+  message: string;
+  data: InternshipData[];
 }

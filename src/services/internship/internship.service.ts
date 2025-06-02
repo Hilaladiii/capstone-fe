@@ -1,10 +1,21 @@
-import { InternshipApplication, InternshipCompetitionApplication, InternshipExtensionApplication, InternshipCancellationApplication } from "../../common/types/internshipp.type";
+import { 
+  InternshipApplication, 
+  InternshipCompetitionApplication, 
+  InternshipExtensionApplication, 
+  InternshipCancellationApplication,
+  InternshipResponse,
+  InternshipStatus 
+} from "../../common/types/internshipp.type";
 import axiosInstance from "../setup.service";
 
 export class InternshipService {
+  static async getApplicationStatus(): Promise<InternshipStatus> {
+    const response = await axiosInstance.get<InternshipResponse>("/internship/status");
+    return response.data.data[0].status; 
+  }
+
   static submitApplication(data: InternshipApplication) {
     const form = new FormData();
-    
     Object.entries(data).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (key === 'groupMembers') {
@@ -33,12 +44,11 @@ export class InternshipService {
       const nims = allMembers.map(member => member.nim).join(',');
       const emails = allMembers.map(member => member.email).join(',');
       const totalSksArray = allMembers.map(member => member.totalSks).join(',');
-
-      const groupPhoneNumber = data.phoneNumber || "081234567890"; 
+      const groupPhoneNumber = data.phoneNumber || "081234567890";
 
       form.set('name', names);
       form.set('nim', nims);
-      form.set('phoneNumber', groupPhoneNumber); 
+      form.set('phoneNumber', groupPhoneNumber);
       form.set('email', emails);
       form.set('totalSks', totalSksArray);
     } else {
@@ -58,7 +68,6 @@ export class InternshipService {
 
   static submitCompetitionApplication(data: InternshipCompetitionApplication) {
     const form = new FormData();
-    
     Object.entries(data).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (key === 'groupMembers') {
@@ -87,12 +96,11 @@ export class InternshipService {
       const nims = allMembers.map(member => member.nim).join(',');
       const emails = allMembers.map(member => member.email).join(',');
       const totalSksArray = allMembers.map(member => member.totalSks).join(',');
-
-      const groupPhoneNumber = data.phoneNumber || "081234567890"; 
+      const groupPhoneNumber = data.phoneNumber || "081234567890";
 
       form.set('name', names);
       form.set('nim', nims);
-      form.set('phoneNumber', groupPhoneNumber); 
+      form.set('phoneNumber', groupPhoneNumber);
       form.set('email', emails);
       form.set('totalSks', totalSksArray);
     } else {
@@ -112,7 +120,6 @@ export class InternshipService {
 
   static submitExtensionApplication(data: InternshipExtensionApplication) {
     const form = new FormData();
-    
     Object.entries(data).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (key === 'groupMembers') {
@@ -141,8 +148,7 @@ export class InternshipService {
       const nims = allMembers.map(member => member.nim).join(',');
       const emails = allMembers.map(member => member.email).join(',');
       const totalSksArray = allMembers.map(member => member.totalSks).join(',');
-
-      const groupPhoneNumber = data.phoneNumber || "081234567890"; 
+      const groupPhoneNumber = data.phoneNumber || "081234567890";
 
       form.set('name', names);
       form.set('nim', nims);
@@ -166,7 +172,6 @@ export class InternshipService {
 
   static submitCancellationApplication(data: InternshipCancellationApplication) {
     const form = new FormData();
-    
     Object.entries(data).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         if (key === 'groupMembers') {
@@ -194,8 +199,7 @@ export class InternshipService {
       const names = allMembers.map(member => member.name).join(',');
       const nims = allMembers.map(member => member.nim).join(',');
       const emails = allMembers.map(member => member.email).join(',');
-
-      const groupPhoneNumber = data.phoneNumber || "081234567890"; 
+      const groupPhoneNumber = data.phoneNumber || "081234567890";
 
       form.set('name', names);
       form.set('nim', nims);
