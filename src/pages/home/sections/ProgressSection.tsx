@@ -1,4 +1,4 @@
-import { useInternshipStatus } from "../../../common/hooks/useInsternship";
+// import { useInternshipStatus } from "../../../common/hooks/useInsternship";
 
 const ProgressStatus = () => {
   const { data: progress, error, isLoading } = useInternshipStatus();

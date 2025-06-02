@@ -8,9 +8,9 @@ import AnnouncementDetail from "../../pages/info/announcement/AnnouncementDetail
 import AnnouncementList from "../../pages/info/announcement/AnnouncementList";
 import CancellationRequestForm from "../../pages/application/form/CancellationRequestForm";
 import CompanyApplicationForm from "../../pages/application/form/CompanyApplicationForm";
-import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
+import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 
 export const privateRoute: RouteObject[] = [
   {
