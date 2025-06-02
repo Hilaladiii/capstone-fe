@@ -9,7 +9,6 @@ import AnnouncementDetail from "../../pages/info/announcement/AnnouncementDetail
 import AnnouncementList from "../../pages/info/announcement/AnnouncementList";
 import CancellationRequestForm from "../../pages/application/form/CancellationRequestForm";
 import CompanyApplicationForm from "../../pages/application/form/CompanyApplicationForm";
-import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
 import SidebarAcademicLayout from "../../components/layout/SidebarAcademicLayout";
@@ -20,6 +19,7 @@ import MainLayout from "../../components/layout/MainLayout";
 import RoleGuard from "../RoleGuard";
 import { Roles } from "../../common/types/user.type";
 import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
+import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 
 export const privateRoute: RouteObject[] = [
   {
