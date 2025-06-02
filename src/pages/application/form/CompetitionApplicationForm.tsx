@@ -31,10 +31,8 @@ const RequestApplicationCompetition: React.FC = () => {
   });
 
   const onSubmit = (data: InternshipCompetitionApplication) => {
-    // Clean phone number
     data.phoneNumber = data.phoneNumber.replace(/\D/g, '').slice(0, 12);
 
-    // If group, clean up unnecessary phone numbers
     if (isGroup) {
       data.groupMembers = data.groupMembers.map((member) => ({
         ...member,
@@ -48,20 +46,20 @@ const RequestApplicationCompetition: React.FC = () => {
   return (
     <main className='flex flex-col w-full'>
       <HeaderLayout />
-      <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">Pengajuan Pembatalan Masa PKL - Kompetisi</h2>
+      <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">Pengajuan PKL Lomba</h2>
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center justify-center text-center bg-primary w-6xl rounded-2xl">
-          <img src="/prosedur.png" alt="Illustration" className="w-full max-w-[497px] rounded-lg" />
+          <img src="/prosedur-competition.png" alt="Illustration" className="w-full max-w-[497px] rounded-lg" />
         </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-center min-w-6xl mx-auto py-6 space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col font-semibold justify-center items-center min-w-6xl mx-auto py-6 space-y-4">
         <div className="flex w-full border-2 border-black rounded-full overflow-hidden">
           <button
             type="button"
             onClick={() => setIsGroup(false)}
             className={`flex-1 py-2 text-sm font-semibold ${
               !isGroup
-                ? 'bg-orange-500 text-white'
+                ? 'bg-secondary text-white'
                 : 'bg-white text-black'
             } transition-colors duration-200`}
           >
@@ -72,7 +70,7 @@ const RequestApplicationCompetition: React.FC = () => {
             onClick={() => setIsGroup(true)}
             className={`flex-1 py-2 text-sm font-semibold ${
               isGroup
-                ? 'bg-orange-500 text-white'
+                ? 'bg-secondary text-white'
                 : 'bg-white text-black'
             } transition-colors duration-200`}
           >
@@ -82,10 +80,10 @@ const RequestApplicationCompetition: React.FC = () => {
 
         <Input
           name="name"
-          label="Name"
+          label="Nama"
           register={register}
           errors={errors.name}
-          placeholder="Enter your full name"
+          placeholder="Masukkan nama lengkap anda"
           className='w-full min-w-6xl'
         />
 
@@ -94,16 +92,16 @@ const RequestApplicationCompetition: React.FC = () => {
           label="NIM"
           register={register}
           errors={errors.nim}
-          placeholder="Student ID"
+          placeholder="Masukkan NIM anda"
           className='w-full min-w-6xl'
         />
 
         <Input
           name="phoneNumber"
-          label="Phone Number (10–12 digits)"
+          label="No. HP (whatsapp)"
           register={register}
           errors={errors.phoneNumber}
-          placeholder="08xxxxxxxxxx"
+          placeholder="Masukkan nomor telepon anda"
           maxLength={12}
           className='w-full min-w-6xl'
         />
@@ -113,25 +111,33 @@ const RequestApplicationCompetition: React.FC = () => {
           label="Email"
           register={register}
           errors={errors.email}
-          placeholder="your@email.com"
+          placeholder="Masukkan email UB anda"
           type="email"
           className='w-full min-w-6xl'
         />
 
-        {/* Group Members Section */}
+        <Input
+          name="totalSks"
+          label="SKS Lulus"
+          register={register}
+          errors={errors.totalSks}
+          placeholder="Masukkan jumlah sks lulus anda"
+          className='min-w-6xl w-full'
+        />
+
         {isGroup && (
           <div className="border rounded-lg py-4 bg-gray-50 min-w-6xl">
-            <h3 className="font-semibold text-lg mb-2 px-4">Group Members (Max 2)</h3>
+            <h3 className="font-semibold text-lg mb-2 px-4">Anggota Kelompok (Maksimal 2 anggota dan 1 Ketua)</h3>
 
             {fields.map((field, index) => (
               <div key={field.id} className="space-y-2 mb-4 border p-4 mx-4 rounded bg-white relative">
-                <h4 className="font-semibold">Member {index + 1}</h4>
+                <h4 className="font-semibold">Anggota {index + 1}</h4>
                 <Input
                   name={`groupMembers.${index}.name`}
-                  label="Name"
+                  label="Nama"
                   register={register}
                   errors={errors.groupMembers?.[index]?.name}
-                  placeholder="Group member name"
+                  placeholder="Masukkan nama anggota"
                   className='min-w-5xl w-full'
                 />
                 <Input
@@ -139,7 +145,7 @@ const RequestApplicationCompetition: React.FC = () => {
                   label="NIM"
                   register={register}
                   errors={errors.groupMembers?.[index]?.nim}
-                  placeholder="Student ID"
+                  placeholder="Masukkan nim anggota"
                   className='min-w-5xl w-full'
                 />
                 <Input
@@ -147,16 +153,16 @@ const RequestApplicationCompetition: React.FC = () => {
                   label="Email"
                   register={register}
                   errors={errors.groupMembers?.[index]?.email}
-                  placeholder="member@email.com"
+                  placeholder="Masukkan email anggota"
                   type="email"
                   className='min-w-5xl w-full'
                 />
                 <Input
                   name={`groupMembers.${index}.totalSks`}
-                  label="Total SKS"
+                  label="SKS Lulus"
                   register={register}
                   errors={errors.groupMembers?.[index]?.totalSks}
-                  placeholder="e.g. 120"
+                  placeholder="Masukkan jumlah sks lulus anggota"
                   className='min-w-5xl w-full'
                 />
 
@@ -165,7 +171,7 @@ const RequestApplicationCompetition: React.FC = () => {
                   onClick={() => remove(index)}
                   className="absolute top-2 right-2 text-red-500 hover:underline text-sm mx-4"
                 >
-                  Remove
+                  Hapus
                 </button>
               </div>
             ))}
@@ -176,74 +182,64 @@ const RequestApplicationCompetition: React.FC = () => {
                 onClick={() => append({ name: '', nim: '', email: '', totalSks: '', phoneNumber: '' })}
                 className='mx-4 py-3 text-sm font-semibold'
               >
-                Add Member
+                Tambah anggota
               </Button>
             )}
           </div>
         )}
 
         <Input
-          name="totalSks"
-          label="Total SKS"
-          register={register}
-          errors={errors.totalSks}
-          placeholder="e.g. 120"
-          className='min-w-6xl w-full'
-        />
-
-        {/* Competition Specific Fields */}
-        <Input
           name="competitionName"
-          label="Competition Name"
+          label="Nama Lomba"
           register={register}
           errors={errors.competitionName}
-          placeholder="e.g. IT Competition"
+          placeholder="Masukkan nama lomba yang anda ikuti"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionSupervisor"
-          label="Competition Supervisor"
+          label="Pembimbing Lomba"
           register={register}
           errors={errors.competitionSupervisor}
-          placeholder="Supervisor name"
+          placeholder="Masukkan nama dosen pembimbing lomba anda"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionCategory"
-          label="Competition Category"
+          label="Kategori Lomba"
           register={register}
           errors={errors.competitionCategory}
-          placeholder="e.g. IT, Programming"
+          placeholder="Masukkan kategori lomba anda"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionOrganizer"
-          label="Competition Organizer"
+          label="Penyelenggara"
           register={register}
           errors={errors.competitionOrganizer}
-          placeholder="Organizer name"
+          placeholder="Masukkan penyelenggara kegiatan lomba anda"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionInformation"
-          label="Competition Information"
+          label="Informasi Lomba"
           register={register}
           errors={errors.competitionInformation}
-          placeholder="Website or additional info"
+          placeholder="Masukkan informasi lomba anda"
           className='min-w-6xl w-full'
         />
 
         <div className="w-full min-w-6xl">
-          <label className="block text-sm font-medium mb-2">Competition Level</label>
+          <label className="block mb-2">Tingkat Lomba</label>
           <select
             {...register('competitionLevel')}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full p-2 border border-gray-300 text-tertiary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <option value="">Select Level</option>
+            <option value="">Select tingkat lomba</option>
             <option value="Local">Local</option>
             <option value="Regional">Regional</option>
             <option value="National">National</option>
@@ -256,25 +252,25 @@ const RequestApplicationCompetition: React.FC = () => {
 
         <Input
           name="competitionWinner"
-          label="Competition Winner/Achievement"
+          label="Juara Lomba"
           register={register}
           errors={errors.competitionWinner}
-          placeholder="e.g. Juara 1, Winner"
+          placeholder="Masukkan juara yang anda dapatkan"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionProduct"
-          label="Competition Product/Portfolio"
+          label="Produk Lomba"
           register={register}
           errors={errors.competitionProduct}
-          placeholder="URL to your product/portfolio"
+          placeholder="Masukkan produk hasil dari lomba anda"
           className='min-w-6xl w-full'
         />
 
         <Input
           name="competitionStartDate"
-          label="Competition Start Date"
+          label="Tanggal Mulai Lomba"
           register={register}
           errors={errors.competitionStartDate}
           type="datetime-local"
@@ -283,7 +279,7 @@ const RequestApplicationCompetition: React.FC = () => {
 
         <Input
           name="competitionFinishDate"
-          label="Competition Finish Date"
+          label="Tanggal Selesai Lomba"
           register={register}
           errors={errors.competitionFinishDate}
           type="datetime-local"
@@ -293,7 +289,7 @@ const RequestApplicationCompetition: React.FC = () => {
         <div className='min-w-6xl w-full'>
           <FileUpload
             name="studyResultCardFile"
-            label="Upload Study Result Card"
+            label="Masukkan KHS anda"
             file={watch("studyResultCardFile") ?? undefined}
             register={register}
             setValue={setValue}
@@ -305,7 +301,7 @@ const RequestApplicationCompetition: React.FC = () => {
         <div className='min-w-6xl w-full'>
           <FileUpload
             name="proposalCompetitionSertificationFile"
-            label="Upload Competition Proposal/Certification"
+            label="Berkas Pengajuan"
             file={watch("proposalCompetitionSertificationFile") ?? undefined}
             register={register}
             setValue={setValue}
@@ -314,7 +310,7 @@ const RequestApplicationCompetition: React.FC = () => {
           />
         </div>
 
-        <Button variant="primary" className="mt-4">
+        <Button variant="primary" className="my-6 py-3 font-semibold">
           {isPending ? 'Submitting...' : 'Submit Pengajuan'}
         </Button>
       </form>

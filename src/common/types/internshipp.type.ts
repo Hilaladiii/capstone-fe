@@ -1,4 +1,3 @@
-// Update untuk internshipp.type.ts - tambahkan interface competition
 export interface GroupMember {
   name: string;
   nim: string;
@@ -44,4 +43,36 @@ export interface InternshipCompetitionApplication {
   competitionFinishDate: string;
   studyResultCardFile: File | null;
   proposalCompetitionSertificationFile: File | null;
+}
+
+export interface InternshipExtensionApplication {
+  name: string;
+  nim: string;
+  phoneNumber: string;
+  email: string;
+  isGroup: boolean;
+  groupMembers?: GroupMember[];
+  totalSks: string;
+  agencyName: string;
+  agencyAddress: string;
+  startDatePeriod: string;
+  finishDatePeriod: string;
+  startExtensionDatePeriod: string;
+  finishExtensionDatePeriod: string;
+  reasonExtension: string;
+  internshipApplicationFile: File | null;
+  intershipExtensionFile: File | null;
+}
+
+export interface InternshipCancellationApplication {
+  name: string;
+  nim: string;
+  phoneNumber: string;
+  email: string;
+  isGroup: boolean;
+  groupMembers?: GroupMember[];
+  agencyName: string;
+  agencyAddress: string;
+  cancellationReason: string;
+  supportingDocumentFile: File | null;
 }
