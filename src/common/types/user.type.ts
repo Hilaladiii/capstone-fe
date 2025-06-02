@@ -35,6 +35,7 @@ export interface UserProfile {
   email: string;
   nim?: string;
   role: string;
+  profileImageUrl?: string;
   student?: {
     nim: string;
     sks?: number;
@@ -44,11 +45,11 @@ export interface UserProfile {
 }
 
 export interface UpdateProfileData {
-  fullname: string;
-  email: string;
+  sks?: number; 
+  year?: number; 
+  fullname?: string;
+  email?: string;
   nim?: string;
-  sks?: string;
-  year?: string;
   program?: string;
 }
 
