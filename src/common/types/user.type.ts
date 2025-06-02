@@ -13,12 +13,14 @@ export interface User {
   username: string;
   fullname: string;
   password: string;
+  role: string;
 }
 
 export interface Student extends User {
   nim: string;
   sks: number;
   year: number;
+  program: string;
 }
 
 export interface Academic extends User {
@@ -27,6 +29,34 @@ export interface Academic extends User {
 
 export interface Lecturer extends User {
   nip: string;
+}
+
+export interface UserProfile {
+  fullname: string;
+  email: string;
+  nim?: string;
+  role: string;
+  profileImageUrl?: string;
+  student?: {
+    nim: string;
+    sks?: number;
+    year?: number;
+    program?: string;
+  };
+}
+
+export interface UpdateProfileData {
+  sks?: number; 
+  year?: number; 
+  fullname?: string;
+  email?: string;
+  nim?: string;
+  program?: string;
+}
+
+export interface ChangePasswordData {
+  password: string;
+  confirmPassword: string;
 }
 
 export type JwtPayload = {

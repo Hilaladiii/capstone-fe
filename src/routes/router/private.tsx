@@ -4,7 +4,7 @@ import Information from "../../pages/info/information/Information";
 import ListMitra from "../../pages/info/partner/PartnerList";
 import Logbook from "../../pages/logbook/index";
 import Notification from "../../pages/Notification/NotificationList";
-import Profile from "../../pages/Profile";
+import Profile from "../../pages/profile/Profile";
 import AnnouncementDetail from "../../pages/info/announcement/AnnouncementDetail";
 import AnnouncementList from "../../pages/info/announcement/AnnouncementList";
 import CancellationRequestForm from "../../pages/application/form/CancellationRequestForm";
