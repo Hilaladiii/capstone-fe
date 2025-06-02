@@ -4,8 +4,8 @@ import { Roles } from "../common/types/user.type";
 
 const roleRedirect: Partial<Record<Roles, string>> = {
   [Roles.STUDENT]: "/home",
-  [Roles.ACADEMIC]: "/dashborad/academic",
-  [Roles.LECTURER]: "/dashborad/lecturer",
+  [Roles.ACADEMIC]: "/dashboard/academic",
+  [Roles.LECTURER]: "/dashboard/lecturer",
 };
 
 export const PublicRoute = () => {

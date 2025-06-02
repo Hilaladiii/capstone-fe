@@ -1,16 +1,16 @@
 import { useNotifications } from "../../common/hooks/useNotification";
-import FooterLayout from "../../components/layout/FooterLayout";
-import HeaderLayout from "../../components/layout/HeaderLayout";
 import { Button } from "../../components/ui/button";
 
 const NotificationList = () => {
-  const { unreadCount, notifications, markNotificationsAsRead } = useNotifications();
+  const { unreadCount, notifications, markNotificationsAsRead } =
+    useNotifications();
 
   return (
     <main className="flex flex-col">
-      <HeaderLayout />
       <div className="max-w-full pt-20 bg-primary flex flex-col items-center justify-center">
-        <h2 className="text-xl py-4 font-semibold text-secondary">Daftar Notifikasi</h2>
+        <h2 className="text-xl py-4 font-semibold text-secondary">
+          Daftar Notifikasi
+        </h2>
         <div className="h-1 w-80 flex items-center justify-center px-10 bg-gradient-to-l from-secondary from-60% to-primary to-100% mb-10" />
 
         <div className="rounded-lg shadow-lg w-full max-w-6xl">
@@ -63,8 +63,6 @@ const NotificationList = () => {
           </div>
         </div>
       </div>
-
-      <FooterLayout />
     </main>
   );
 };

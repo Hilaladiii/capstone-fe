@@ -11,15 +11,25 @@ import {
   CompetitionApplicationRequest,
   ExtensionRequest,
   ApplicationResponse,
+  InternshipType,
 } from "../../common/types/internshipp.type";
 
 export class InternshipService {
   static async getApplicationStatus(): Promise<InternshipStatus> {
-    const response = await axiosInstance.get<InternshipResponse>("/internship/status");
+    const response = await axiosInstance.get<InternshipResponse>(
+      "/internship/status"
+    );
     return response.data.data[0].status;
   }
 
-  static async requestCancellation(data: CancellationRequest): Promise<CancellationResponse> {
+  static async getInternshipApplication<T>(type: InternshipType): Promise<T> {
+    const response = await axiosInstance.get(`/internship?type=${type}`);
+    return response.data.data;
+  }
+
+  static async requestCancellation(
+    data: CancellationRequest
+  ): Promise<CancellationResponse> {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nim", data.nim);
@@ -31,31 +41,51 @@ export class InternshipService {
     formData.append("cancellationReason", data.cancellationReason);
     formData.append("supportingDocumentFile", data.supportingDocumentFile);
 
-    const response = await axiosInstance.post<CancellationResponse>("/internship/cancellation", formData);
+    const response = await axiosInstance.post<CancellationResponse>(
+      "/internship/cancellation",
+      formData
+    );
     return response.data;
   }
 
-  static async updateInternshipCompany(internshipId: string, data: UpdateCompanyRequest): Promise<UpdateResponse> {
+  static async updateInternshipCompany(
+    internshipId: string,
+    data: UpdateCompanyRequest
+  ): Promise<UpdateResponse> {
     const formData = new FormData();
     formData.append("status", data.status);
     formData.append("coverLetterFile", data.coverLetterFile);
     formData.append("studyResultCardFile", data.studyResultCardFile);
-    formData.append("letterApprovalSupervisorFile", data.letterApprovalSupervisorFile);
+    formData.append(
+      "letterApprovalSupervisorFile",
+      data.letterApprovalSupervisorFile
+    );
 
-    const response = await axiosInstance.patch<UpdateResponse>(`/internship/${internshipId}/company`, formData);
+    const response = await axiosInstance.patch<UpdateResponse>(
+      `/internship/${internshipId}/company`,
+      formData
+    );
     return response.data;
   }
 
-  static async updateInternshipCancellation(cancellationId: string, data: UpdateCancellationRequest): Promise<UpdateResponse> {
+  static async updateInternshipCancellation(
+    cancellationId: string,
+    data: UpdateCancellationRequest
+  ): Promise<UpdateResponse> {
     const formData = new FormData();
     formData.append("status", data.status);
     formData.append("supportingDocument", data.supportingDocument);
 
-    const response = await axiosInstance.patch<UpdateResponse>(`/internship/${cancellationId}/cancellation`, formData);
+    const response = await axiosInstance.patch<UpdateResponse>(
+      `/internship/${cancellationId}/cancellation`,
+      formData
+    );
     return response.data;
   }
 
-  static async requestCompanyApplication(data: CompanyApplicationRequest): Promise<ApplicationResponse> {
+  static async requestCompanyApplication(
+    data: CompanyApplicationRequest
+  ): Promise<ApplicationResponse> {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nim", data.nim);
@@ -71,11 +101,16 @@ export class InternshipService {
     formData.append("recipientOfLetter", data.recipientOfLetter);
     formData.append("studyResultCardFile", data.studyResultCardFile);
 
-    const response = await axiosInstance.post<ApplicationResponse>("/internship/application/company", formData);
+    const response = await axiosInstance.post<ApplicationResponse>(
+      "/internship/application/company",
+      formData
+    );
     return response.data;
   }
 
-  static async requestCompetitionApplication(data: CompetitionApplicationRequest): Promise<ApplicationResponse> {
+  static async requestCompetitionApplication(
+    data: CompetitionApplicationRequest
+  ): Promise<ApplicationResponse> {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nim", data.nim);
@@ -94,13 +129,21 @@ export class InternshipService {
     formData.append("competitionStartDate", data.competitionStartDate);
     formData.append("competitionFinishDate", data.competitionFinishDate);
     formData.append("studyResultCardFile", data.studyResultCardFile);
-    formData.append("proposalCompetitionSertificationFile", data.proposalCompetitionSertificationFile);
+    formData.append(
+      "proposalCompetitionSertificationFile",
+      data.proposalCompetitionSertificationFile
+    );
 
-    const response = await axiosInstance.post<ApplicationResponse>("/internship/application/competition", formData);
+    const response = await axiosInstance.post<ApplicationResponse>(
+      "/internship/application/competition",
+      formData
+    );
     return response.data;
   }
 
-  static async requestExtension(data: ExtensionRequest): Promise<ApplicationResponse> {
+  static async requestExtension(
+    data: ExtensionRequest
+  ): Promise<ApplicationResponse> {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nim", data.nim);
@@ -113,12 +156,21 @@ export class InternshipService {
     formData.append("startDatePeriod", data.startDatePeriod);
     formData.append("finishDatePeriod", data.finishDatePeriod);
     formData.append("startExtensionDatePeriod", data.startExtensionDatePeriod);
-    formData.append("finishExtensionDatePeriod", data.finishExtensionDatePeriod);
+    formData.append(
+      "finishExtensionDatePeriod",
+      data.finishExtensionDatePeriod
+    );
     formData.append("reasonExtension", data.reasonExtension);
-    formData.append("internshipApplicationFile", data.internshipApplicationFile);
+    formData.append(
+      "internshipApplicationFile",
+      data.internshipApplicationFile
+    );
     formData.append("intershipExtensionFile", data.intershipExtensionFile);
 
-    const response = await axiosInstance.post<ApplicationResponse>("/internship/extension", formData);
+    const response = await axiosInstance.post<ApplicationResponse>(
+      "/internship/extension",
+      formData
+    );
     return response.data;
   }
 }

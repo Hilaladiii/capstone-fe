@@ -7,56 +7,94 @@ import { Button } from "../../../components/ui/button";
 import toast from "react-hot-toast";
 import { useRequestCompetitionApplication } from "../../../common/hooks/useInsternship";
 import { z } from "zod";
-import HeaderLayout from "../../../components/layout/HeaderLayout";
-import FooterLayout from "../../../components/layout/FooterLayout";
 import SuccessNotification from "../../../components/ui/successNotification";
 
-const competitionApplicationSchema = z.object({
-  names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
-  nims: z.string().min(1, { message: "NIM wajib diisi" }),
-  emails: z.string().min(1, { message: "Email wajib diisi" }),
-  phoneNumber: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
-  isGroup: z.boolean(),
-  totalSks: z.string().min(1, { message: "Total SKS wajib diisi" }),
-  competitionName: z.string().min(1, { message: "Nama kompetisi wajib diisi" }),
-  competitionSupervisor: z.string().min(1, { message: "Supervisor kompetisi wajib diisi" }),
-  competitionCategory: z.string().min(1, { message: "Kategori kompetisi wajib diisi" }),
-  competitionOrganizer: z.string().min(1, { message: "Penyelenggara kompetisi wajib diisi" }),
-  competitionInformation: z.string().min(1, { message: "Informasi kompetisi wajib diisi" }),
-  competitionLevel: z.string().min(1, { message: "Tingkat kompetisi wajib diisi" }),
-  competitionWinner: z.string().min(1, { message: "Pemenang kompetisi wajib diisi" }),
-  competitionProduct: z.string().min(1, { message: "Produk kompetisi wajib diisi" }),
-  competitionStartDate: z.string().min(1, { message: "Tanggal mulai kompetisi wajib diisi" }),
-  competitionFinishDate: z.string().min(1, { message: "Tanggal selesai kompetisi wajib diisi" }),
-  studyResultCardFile: z.any().optional(),
-  proposalCompetitionSertificationFile: z.any().optional(),
-}).refine((data) => {
-  if (data.isGroup) {
-    const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-    const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-    const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
+const competitionApplicationSchema = z
+  .object({
+    names: z.string().min(1, { message: "Nama lengkap wajib diisi" }),
+    nims: z.string().min(1, { message: "NIM wajib diisi" }),
+    emails: z.string().min(1, { message: "Email wajib diisi" }),
+    phoneNumber: z.string().min(1, { message: "Nomor telepon wajib diisi" }),
+    isGroup: z.boolean(),
+    totalSks: z.string().min(1, { message: "Total SKS wajib diisi" }),
+    competitionName: z
+      .string()
+      .min(1, { message: "Nama kompetisi wajib diisi" }),
+    competitionSupervisor: z
+      .string()
+      .min(1, { message: "Supervisor kompetisi wajib diisi" }),
+    competitionCategory: z
+      .string()
+      .min(1, { message: "Kategori kompetisi wajib diisi" }),
+    competitionOrganizer: z
+      .string()
+      .min(1, { message: "Penyelenggara kompetisi wajib diisi" }),
+    competitionInformation: z
+      .string()
+      .min(1, { message: "Informasi kompetisi wajib diisi" }),
+    competitionLevel: z
+      .string()
+      .min(1, { message: "Tingkat kompetisi wajib diisi" }),
+    competitionWinner: z
+      .string()
+      .min(1, { message: "Pemenang kompetisi wajib diisi" }),
+    competitionProduct: z
+      .string()
+      .min(1, { message: "Produk kompetisi wajib diisi" }),
+    competitionStartDate: z
+      .string()
+      .min(1, { message: "Tanggal mulai kompetisi wajib diisi" }),
+    competitionFinishDate: z
+      .string()
+      .min(1, { message: "Tanggal selesai kompetisi wajib diisi" }),
+    studyResultCardFile: z.any().optional(),
+    proposalCompetitionSertificationFile: z.any().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.isGroup) {
+        const namesArray = data.names
+          .split("\n")
+          .filter((name) => name.trim() !== "");
+        const nimsArray = data.nims
+          .split("\n")
+          .filter((nim) => nim.trim() !== "");
+        const emailsArray = data.emails
+          .split("\n")
+          .filter((email) => email.trim() !== "");
 
-    if (namesArray.length < 2 || namesArray.length > 3) {
-      return false;
+        if (namesArray.length < 2 || namesArray.length > 3) {
+          return false;
+        }
+
+        return (
+          namesArray.length === nimsArray.length &&
+          nimsArray.length === emailsArray.length &&
+          emailsArray.every((email) => email.includes("@student.ub.ac.id"))
+        );
+      } else {
+        const hasMultipleNames = data.names.includes("\n");
+        const hasMultipleNims = data.nims.includes("\n");
+        const hasMultipleEmails = data.emails.includes("\n");
+
+        return (
+          !hasMultipleNames &&
+          !hasMultipleNims &&
+          !hasMultipleEmails &&
+          data.emails.includes("@student.ub.ac.id")
+        );
+      }
+    },
+    {
+      message:
+        "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
+      path: ["isGroup"],
     }
+  );
 
-    return namesArray.length === nimsArray.length && 
-           nimsArray.length === emailsArray.length &&
-           emailsArray.every(email => email.includes('@student.ub.ac.id'));
-  } else {
-    const hasMultipleNames = data.names.includes('\n');
-    const hasMultipleNims = data.nims.includes('\n');
-    const hasMultipleEmails = data.emails.includes('\n');
-    
-    return !hasMultipleNames && !hasMultipleNims && !hasMultipleEmails &&
-           data.emails.includes('@student.ub.ac.id');
-  }
-}, {
-  message: "Data tidak valid. Untuk kelompok: masukkan 2-3 anggota dengan jumlah yang sama. Untuk individu: hanya satu data per field. Email harus menggunakan domain @student.ub.ac.id",
-  path: ["isGroup"],
-});
-
-type CompetitionApplicationFormData = z.infer<typeof competitionApplicationSchema>;
+type CompetitionApplicationFormData = z.infer<
+  typeof competitionApplicationSchema
+>;
 
 const CompetitionApplicationForm = () => {
   const {
@@ -70,13 +108,16 @@ const CompetitionApplicationForm = () => {
     resolver: zodResolver(competitionApplicationSchema),
   });
 
-  const { mutate: requestCompetitionApplication } = useRequestCompetitionApplication();
+  const { mutate: requestCompetitionApplication } =
+    useRequestCompetitionApplication();
   const [fileError, setFileError] = useState<string>("");
   const [proposalFileError, setProposalFileError] = useState<string>("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const studyResultCardFile = watch("studyResultCardFile") as File;
-  const proposalCompetitionSertificationFile = watch("proposalCompetitionSertificationFile") as File;
+  const proposalCompetitionSertificationFile = watch(
+    "proposalCompetitionSertificationFile"
+  ) as File;
   const isGroupSelected = watch("isGroup") || false;
 
   const onSubmit: SubmitHandler<CompetitionApplicationFormData> = (data) => {
@@ -94,12 +135,20 @@ const CompetitionApplicationForm = () => {
     }
 
     let formattedData;
-    
+
     if (data.isGroup) {
-      const namesArray = data.names.split('\n').filter(name => name.trim() !== '');
-      const nimsArray = data.nims.split('\n').filter(nim => nim.trim() !== '');
-      const emailsArray = data.emails.split('\n').filter(email => email.trim() !== '');
-      const totalSksArray = data.totalSks.split('\n').filter(sks => sks.trim() !== '');
+      const namesArray = data.names
+        .split("\n")
+        .filter((name) => name.trim() !== "");
+      const nimsArray = data.nims
+        .split("\n")
+        .filter((nim) => nim.trim() !== "");
+      const emailsArray = data.emails
+        .split("\n")
+        .filter((email) => email.trim() !== "");
+      const totalSksArray = data.totalSks
+        .split("\n")
+        .filter((sks) => sks.trim() !== "");
 
       formattedData = {
         name: namesArray.join(","),
@@ -107,7 +156,8 @@ const CompetitionApplicationForm = () => {
         email: emailsArray.join(","),
         phoneNumber: data.phoneNumber,
         isGroup: data.isGroup,
-        totalSks: totalSksArray.length > 1 ? totalSksArray.join(",") : data.totalSks,
+        totalSks:
+          totalSksArray.length > 1 ? totalSksArray.join(",") : data.totalSks,
         competitionName: data.competitionName,
         competitionSupervisor: data.competitionSupervisor,
         competitionCategory: data.competitionCategory,
@@ -117,9 +167,12 @@ const CompetitionApplicationForm = () => {
         competitionWinner: data.competitionWinner,
         competitionProduct: data.competitionProduct,
         competitionStartDate: new Date(data.competitionStartDate).toISOString(),
-        competitionFinishDate: new Date(data.competitionFinishDate).toISOString(),
+        competitionFinishDate: new Date(
+          data.competitionFinishDate
+        ).toISOString(),
         studyResultCardFile: studyResultCardFile,
-        proposalCompetitionSertificationFile: proposalCompetitionSertificationFile,
+        proposalCompetitionSertificationFile:
+          proposalCompetitionSertificationFile,
       };
     } else {
       formattedData = {
@@ -138,9 +191,12 @@ const CompetitionApplicationForm = () => {
         competitionWinner: data.competitionWinner,
         competitionProduct: data.competitionProduct,
         competitionStartDate: new Date(data.competitionStartDate).toISOString(),
-        competitionFinishDate: new Date(data.competitionFinishDate).toISOString(),
+        competitionFinishDate: new Date(
+          data.competitionFinishDate
+        ).toISOString(),
         studyResultCardFile: studyResultCardFile,
-        proposalCompetitionSertificationFile: proposalCompetitionSertificationFile,
+        proposalCompetitionSertificationFile:
+          proposalCompetitionSertificationFile,
       };
     }
 
@@ -163,13 +219,16 @@ const CompetitionApplicationForm = () => {
 
   return (
     <main className="flex flex-col w-full">
-      <HeaderLayout />
       <h2 className="text-sm w-fit ml-40 font-semibold mt-26 mb-6 bg-primary text-white rounded-2xl px-10 py-3">
         Pengajuan PKL Lomba
       </h2>
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center justify-center text-center bg-primary w-6xl rounded-2xl">
-          <img src="/prosedur.png" alt="Illustration" className="w-full max-w-[497px] rounded-lg" />
+          <img
+            src="/prosedur.png"
+            alt="Illustration"
+            className="w-full max-w-[497px] rounded-lg"
+          />
         </div>
       </div>
       <div className="flex flex-col w-full justify-center items-center">
@@ -215,7 +274,9 @@ const CompetitionApplicationForm = () => {
                     rows={3}
                   />
                   {errors.names && (
-                    <p className="text-red-500 text-xs mt-1">{errors.names.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.names.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -243,7 +304,9 @@ const CompetitionApplicationForm = () => {
                     rows={3}
                   />
                   {errors.nims && (
-                    <p className="text-red-500 text-xs mt-1">{errors.nims.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.nims.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -271,7 +334,9 @@ const CompetitionApplicationForm = () => {
                     rows={3}
                   />
                   {errors.emails && (
-                    <p className="text-red-500 text-xs mt-1">{errors.emails.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.emails.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -300,7 +365,9 @@ const CompetitionApplicationForm = () => {
                     rows={3}
                   />
                   {errors.phoneNumber && (
-                    <p className="text-red-500 text-xs mt-1">{errors.phoneNumber.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.phoneNumber.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -328,7 +395,9 @@ const CompetitionApplicationForm = () => {
                     rows={3}
                   />
                   {errors.totalSks && (
-                    <p className="text-red-500 text-xs mt-1">{errors.totalSks.message}</p>
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.totalSks.message}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -432,7 +501,6 @@ const CompetitionApplicationForm = () => {
               placeholder="Masukkan deskripsi produk kompetisi"
               className="z-10 min-w-6xl border-2 border-black font-light"
             />
-
           </div>
 
           <div className="z-10">
@@ -463,7 +531,9 @@ const CompetitionApplicationForm = () => {
               file={studyResultCardFile}
               register={register}
               setValue={setValue}
-              error={fileError ? { message: fileError, type: "manual" } : undefined}
+              error={
+                fileError ? { message: fileError, type: "manual" } : undefined
+              }
               label="Kartu Hasil Studi (KHS)"
               className="bg-red-200"
             />
@@ -475,14 +545,21 @@ const CompetitionApplicationForm = () => {
               file={proposalCompetitionSertificationFile}
               register={register}
               setValue={setValue}
-              error={proposalFileError ? { message: proposalFileError, type: "manual" } : undefined}
+              error={
+                proposalFileError
+                  ? { message: proposalFileError, type: "manual" }
+                  : undefined
+              }
               label="Proposal/Sertifikat Kompetisi"
               className="bg-red-200"
             />
           </div>
 
           <div className="z-10 flex justify-center pb-12">
-            <Button variant="primary" className="py-3 px-16 mt-4 mb-6 text-sm font-semibold">
+            <Button
+              variant="primary"
+              className="py-3 px-16 mt-4 mb-6 text-sm font-semibold"
+            >
               Submit Pengajuan
             </Button>
           </div>
@@ -494,7 +571,6 @@ const CompetitionApplicationForm = () => {
         message="Silahkan menunggu balasan akademik"
         onClose={() => setShowSuccessModal(false)}
       />
-      <FooterLayout />
     </main>
   );
 };
