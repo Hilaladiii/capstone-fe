@@ -2,14 +2,13 @@ import { RouteObject } from "react-router-dom";
 import Home from "../../pages/home/Home";
 import Information from "../../pages/info/information/Information";
 import ListMitra from "../../pages/info/partner/PartnerList";
-import Logbook from "../../pages/Logbook";
+import Logbook from "../../pages/logbook/index";
 import Notification from "../../pages/Notification/NotificationList";
-import Profile from "../../pages/Profile";
+import Profile from "../../pages/profile/Profile";
 import AnnouncementDetail from "../../pages/info/announcement/AnnouncementDetail";
 import AnnouncementList from "../../pages/info/announcement/AnnouncementList";
 import CancellationRequestForm from "../../pages/application/form/CancellationRequestForm";
 import CompanyApplicationForm from "../../pages/application/form/CompanyApplicationForm";
-import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import ExtensionRequestForm from "../../pages/application/form/ExtensionRequestForm";
 import Pengajuan from "../../pages/application/Pengajuan";
 import SidebarAcademicLayout from "../../components/layout/SidebarAcademicLayout";
@@ -20,6 +19,8 @@ import MainLayout from "../../components/layout/MainLayout";
 import RoleGuard from "../RoleGuard";
 import { Roles } from "../../common/types/user.type";
 import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
+import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
+import NotificationDetail from "../../pages/Notification/NotificationDetail";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -51,6 +52,10 @@ export const privateRoute: RouteObject[] = [
           {
             path: "/notification",
             element: <Notification />,
+          },
+          {
+            path: "/notification/:id",
+            element: <NotificationDetail />,
           },
           {
             path: "/profile",

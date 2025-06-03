@@ -7,4 +7,3 @@ export const useConsultation = () => {
     mutationFn: (data: ConsultationData) => ConsultationService.createConsultation(data),
   });
 };
-

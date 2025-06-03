@@ -6,10 +6,21 @@ export interface Notification {
   readAt: string | null;
 }
 
+export interface NotificationDetail {
+  id: string;
+  title: string;
+  content: string;
+  fileUrl?: string;
+}
+
 export interface NotificationResponse {
+  statusCode: number;
+  message: string;
   data: Notification[];
 }
 
-export interface UnreadCountResponse {
-  data: number;
+export interface NotificationDetailResponse {
+  statusCode: number;
+  message: string;
+  data: NotificationDetail;
 }
