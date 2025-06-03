@@ -1,10 +1,10 @@
 import StatusOption from "../../../../components/shared/StatusOption";
 import { Button } from "../../../../components/ui/button";
 import { useInternship } from "../../../../common/hooks/useInsternship";
-import {
-  InternshipCompetitionResponse,
-  InternshipType,
-} from "../../../../common/types/internshipp.type";
+// import {
+//   InternshipCompetitionResponse,
+//   InternshipType,
+// } from "../../../../common/types/internshipp.type";
 
 const TableApplicationCompetition = () => {
   const { data } = useInternship(InternshipType.COMPETITION) as {

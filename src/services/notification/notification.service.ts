@@ -1,13 +1,13 @@
 import axiosInstance from "../../services/setup.service";
-import { NotificationResponse, UnreadCountResponse } from "../../common/types/notification.type";
+import { NotificationResponse, NotificationDetailResponse } from "../../common/types/notification.type";
 
 export class NotificationService {
   static fetchNotifications() {
     return axiosInstance.get<NotificationResponse>('/notification');
   }
 
-  static fetchUnreadCount() {
-    return axiosInstance.get<UnreadCountResponse>('/notification/unread-count');
+  static fetchNotificationById(id: string) {
+    return axiosInstance.get<NotificationDetailResponse>(`/notification/${id}`);
   }
 
   static markNotificationsAsRead() {

@@ -20,6 +20,7 @@ import RoleGuard from "../RoleGuard";
 import { Roles } from "../../common/types/user.type";
 import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
 import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
+import NotificationDetail from "../../pages/Notification/NotificationDetail";
 
 export const privateRoute: RouteObject[] = [
   {
@@ -51,6 +52,10 @@ export const privateRoute: RouteObject[] = [
           {
             path: "/notification",
             element: <Notification />,
+          },
+          {
+            path: "/notification/:id",
+            element: <NotificationDetail />,
           },
           {
             path: "/profile",
