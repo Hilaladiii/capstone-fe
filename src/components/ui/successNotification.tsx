@@ -15,7 +15,7 @@ const SuccessNotification = ({ isOpen, title, message, onClose }: SuccessModalPr
       <div className="flex flex-col justify-center items-center bg-white border-2 border-black p-6 rounded-[20px] w-88 h-50 text-center">
         <h2 className="text-sm font-semibold mb-5">{title}</h2>
         <p className="text-xs font-semibold mb-4">{message}</p>
-        <Button variant="secondary" onClick={onClose} className="py-3 px-26 mt-4 text-sm cursor-pointer">
+        <Button variant="secondary" onClick={onClose} className="py-3 px-25 mt-4 text-sm cursor-pointer">
           Tutup
         </Button>
       </div>
