@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
 import { useConsultation } from "../../../../common/hooks/useConsultation";
-import SuccessNotification from "../../../../components/ui/successNotification";
+import SuccessNotification from "../../../../components/ui/SuccessNotification";
 import { z } from "zod";
 
 const consultationSchema = z.object({
@@ -22,54 +22,41 @@ const ConsultationSection = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(consultationSchema), 
+    resolver: zodResolver(consultationSchema),
   });
 
   const { mutate } = useConsultation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onSubmit: SubmitHandler<z.infer<typeof consultationSchema>> = (data) => { 
+  const onSubmit: SubmitHandler<z.infer<typeof consultationSchema>> = (data) => {
     mutate(data, {
       onSuccess: () => {
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
         reset();
       },
       onError: () => {
-        setIsModalOpen(false); 
+        setIsModalOpen(false);
       },
     });
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   return (
     <section className="flex flex-col py-20 bg-white w-full px-20">
       <div className="flex items-center w-full">
-        <h2 className="text-base mb-10 font-semibold text-center text-white bg-primary rounded-lg w-1/3 h-13 flex justify-center items-center px-6">
-          Ajukan Konsultasi Profesi PKL kepada KPS
-        </h2>
+        <h2 className="text-base mb-10 font-semibold text-center text-white bg-primary rounded-lg w-1/3 h-13 flex justify-center items-center px-6">Ajukan Konsultasi Profesi PKL kepada KPS</h2>
       </div>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full space-y-2 px-4"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full space-y-2 px-4">
         <div className="flex items-center w-full space-x-4">
           <label htmlFor="fullname" className="w-40 text-sm font-medium text-gray-700">
             Nama Lengkap
           </label>
           <div className="flex-1">
-            <Input
-              id="fullname"
-              name="fullname"
-              register={register}
-              label=""
-              placeholder="Masukkan nama lengkap"
-              className="w-full min-w-2xl bg-support-2"
-              errors={errors.fullname}
-            />
+            <Input id="fullname" name="fullname" register={register} label="" placeholder="Masukkan nama lengkap" className="w-full min-w-2xl bg-support-2" errors={errors.fullname} />
           </div>
         </div>
 
@@ -78,15 +65,7 @@ const ConsultationSection = () => {
             NIM
           </label>
           <div className="flex-1">
-            <Input
-              id="nim"
-              name="nim"
-              register={register}
-              label=""
-              placeholder="Masukkan NIM"
-              className="w-full min-w-2xl bg-support-2"
-              errors={errors.nim}
-            />
+            <Input id="nim" name="nim" register={register} label="" placeholder="Masukkan NIM" className="w-full min-w-2xl bg-support-2" errors={errors.nim} />
           </div>
         </div>
 
@@ -95,15 +74,7 @@ const ConsultationSection = () => {
             Nama Instansi
           </label>
           <div className="flex-1">
-            <Input
-              id="agencyName"
-              name="agencyName"
-              register={register}
-              label=""
-              placeholder="Masukkan nama instansi"
-              className="w-full min-w-2xl bg-support-2"
-              errors={errors.agencyName}
-            />
+            <Input id="agencyName" name="agencyName" register={register} label="" placeholder="Masukkan nama instansi" className="w-full min-w-2xl bg-support-2" errors={errors.agencyName} />
           </div>
         </div>
 
@@ -112,15 +83,7 @@ const ConsultationSection = () => {
             Posisi yang dilamar
           </label>
           <div className="flex-1">
-            <Input
-              id="position"
-              name="position"
-              register={register}
-              label=""
-              placeholder="Masukkan nama posisi"
-              className="w-full min-w-2xl bg-support-2"
-              errors={errors.position}
-            />
+            <Input id="position" name="position" register={register} label="" placeholder="Masukkan nama posisi" className="w-full min-w-2xl bg-support-2" errors={errors.position} />
           </div>
         </div>
 
@@ -129,15 +92,7 @@ const ConsultationSection = () => {
             Deskripsi Aktivitas
           </label>
           <div className="flex-1">
-            <Input
-              id="activityDescription"
-              name="activityDescription"
-              register={register}
-              label=""
-              placeholder="Masukkan deskripsi aktivitas"
-              className="w-full min-w-2xl h-20 bg-support-2"
-              errors={errors.activityDescription}
-            />
+            <Input id="activityDescription" name="activityDescription" register={register} label="" placeholder="Masukkan deskripsi aktivitas" className="w-full min-w-2xl h-20 bg-support-2" errors={errors.activityDescription} />
           </div>
         </div>
         <div className="px-44 mt-4">
@@ -147,12 +102,7 @@ const ConsultationSection = () => {
         </div>
       </form>
 
-      <SuccessNotification 
-        isOpen={isModalOpen}
-        title="Anda berhasil submit !"
-        message="Silahkan menunggu jawaban kps"
-        onClose={closeModal} 
-      />
+      <SuccessNotification isOpen={isModalOpen} title="Anda berhasil submit !" message="Silahkan menunggu jawaban kps" onClose={closeModal} />
     </section>
   );
 };
