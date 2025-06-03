@@ -1,3 +1,10 @@
+export enum IntershipType {
+  COMPETITION = "COMPETITION",
+  COMPANY = "COMPANY",
+  EXTENSION = "EXTENSION",
+  CANCELLATION = "CANCELLATION",
+}
+
 export interface GroupMember {
   name: string;
   nim: string;

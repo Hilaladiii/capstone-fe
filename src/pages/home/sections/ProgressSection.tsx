@@ -19,7 +19,7 @@ const ProgressStatus = () => {
         Progress Pengajuan
       </h1>
       <div className="relative flex items-center justify-between w-full">
-        <div className="absolute top-1/6 right-48 w-270 h-1.5 bg-white z-0"></div>
+        <div className="absolute top-1/6 right-48 w-282 h-1.5 bg-white z-0"></div>
         {stages.map((stage, index) => {
           const isCurrent = index === currentStageIndex;
           const isCompleted = index < currentStageIndex;

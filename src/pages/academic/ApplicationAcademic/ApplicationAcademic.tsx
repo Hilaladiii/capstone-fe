@@ -1,10 +1,10 @@
-import TableApplicationCompetition from "./components/TableApplicationCompetition";
+// import TableApplicationCompetition from "./components/TableApplicationCompetition";
 
 const ApplicationAcademic = () => {
   return (
     <div className="text-black">
       Data Pengajuan
-      <TableApplicationCompetition />
+      {/* <TableApplicationCompetition /> */}
     </div>
   );
 };

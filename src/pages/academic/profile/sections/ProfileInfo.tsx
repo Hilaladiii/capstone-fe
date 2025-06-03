@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
 import { Button } from '../../../../components/ui/button';
 import { Input } from '../../../../components/ui/input';
-import SuccessNotification from '../../../../components/ui/SuccessNotification';
+import SuccessNotification from '../../../../components/ui/successNotification';
 
 interface ProfileInfoFormData {
   namaLengkap: string;

@@ -47,7 +47,7 @@ const StatusOption = ({
       name="status"
       id="status"
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
       className={cn("rounded-full px-5 py-3", selectedValue?.color)}
     >
       <option value="">Pilih Status</option>

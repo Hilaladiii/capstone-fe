@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Button } from '../../../../components/ui/button';
 import { Input } from '../../../../components/ui/input';
-import SuccessNotification from '../../../../components/ui/SuccessNotification';
+import SuccessNotification from '../../../../components/ui/successNotification';
 
 interface ChangePasswordFormData {
   username: string;

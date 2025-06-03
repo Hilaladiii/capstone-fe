@@ -18,7 +18,7 @@ import ProfileAcademic from "../../pages/academic/profile/ProfileAcademic";
 import MainLayout from "../../components/layout/MainLayout";
 import RoleGuard from "../RoleGuard";
 import { Roles } from "../../common/types/user.type";
-import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
+// import ApplicationAcademic from "../../pages/academic/ApplicationAcademic/ApplicationAcademic";
 import CompetitionApplicationForm from "../../pages/application/form/CompetitionApplicationForm";
 import NotificationDetail from "../../pages/Notification/NotificationDetail";
 
@@ -95,7 +95,7 @@ export const privateRoute: RouteObject[] = [
     children: [
       {
         path: "/dashboard/academic",
-        element: <ApplicationAcademic />,
+        element: <>hello</>,
       },
       {
         path: "/pengumuman",
